@@ -1,20 +1,19 @@
 package org.firstinspires.ftc.teamcode.robot;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 
-import java.util.Vector;
-
-import static java.lang.Math.*;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 public class Movement {
     public VectorF position;
     public double targetHeading;
     public IMU imu;
-    public Movement(VectorF default_position,double default_heading) {
+    public Movement(VectorF default_position, double default_heading, HardwareMap hardwareMap) {
         // Set the default position and default heading
         position=default_position;
         targetHeading=default_heading;
@@ -28,7 +27,7 @@ public class Movement {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
     }
     // Set default_heading to 0.0 if default_heading isn't given
-    public Movement(VectorF default_position) {this(default_position,0.0);}
+    public Movement(VectorF default_position, HardwareMap hardwareMap) {this(default_position,0.0,hardwareMap);}
     public void RobotStart() {
         imu.resetYaw();
     }
