@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.robot;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -15,6 +17,8 @@ public class Movement {
     public VectorF position;
     public double targetHeading;
     public IMU imu;
+    public DcMotor left_motor;
+    public DcMotor right_motor;
     public Movement(VectorF default_position, double default_heading, HardwareMap hardwareMap) {
         // Set the default position and default heading
         position=default_position;
@@ -27,6 +31,14 @@ public class Movement {
 
         imu=hardwareMap.get(IMU.class,"imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
+
+        // Set DC Motor variables
+        left_motor=hardwareMap.get(DcMotor.class,"left_motor");
+        right_motor=hardwareMap.get(DcMotor.class,"right_motor");
+
+        // MOTOR DIRECTION SETTINGS
+        left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
     }
     // Set default_heading to 0.0 if default_heading isn't given
     public Movement(VectorF default_position, HardwareMap hardwareMap) {this(default_position,0.0,hardwareMap);}
