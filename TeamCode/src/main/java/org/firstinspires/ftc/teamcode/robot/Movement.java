@@ -29,6 +29,7 @@ public class Movement {
         RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection,usbDirection);
 
+        // Set the IMU (Gyro) Variable
         imu=hardwareMap.get(IMU.class,"imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
@@ -49,6 +50,12 @@ public class Movement {
     public double getHeading() {
         YawPitchRollAngles YPRAimu = imu.getRobotYawPitchRollAngles();
         return YPRAimu.getYaw(AngleUnit.RADIANS);
+    }
+    /**
+     * @param turn_rate Turing speed of the robot [rad/s]
+     */
+    public void setTurnSpeed(double turn_rate) {
+
     }
     public void setHeading(double target_heading) {
 
