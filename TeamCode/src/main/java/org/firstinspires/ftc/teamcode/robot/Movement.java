@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -30,10 +32,11 @@ public class Movement {
     public Movement(VectorF default_position, HardwareMap hardwareMap) {this(default_position,0.0,hardwareMap);}
     public void RobotStart() {
         imu.resetYaw();
-    }
+    } // Reset Yaw to 0
     // Get heading from the IMU (Control Hub)
     public double getHeading() {
-        return 0.0;
+        YawPitchRollAngles YPRAimu = imu.getRobotYawPitchRollAngles();
+        return YPRAimu.getYaw(AngleUnit.RADIANS);
     }
     public void setHeading(double target_heading) {
 
@@ -42,12 +45,13 @@ public class Movement {
 
     }
     // Drive in that direction
-    public void driveTo(VectorF target_vector) {
+    public void driveTo(VectorF target_vector,boolean drive_and_turn) {
 
     }
-    public void driveTo(double orientation,double distance) {
+    public void driveTo(double orientation,double distance,boolean drive_and_turn) {
         driveTo(new VectorF(
                 (float)(cos(orientation)*distance),
-                (float)(sin(orientation)*distance)));
+                (float)(sin(orientation)*distance)),
+                drive_and_turn);
     }
 }
