@@ -15,7 +15,11 @@ import org.firstinspires.ftc.teamcode.robot.Movement;
 */
 /* Units:
     Angle [radians]
-    time [seconds]
+    Time [seconds]
+    Distance [meters]
+    Speed [m/s]
+    Acceleration [m/s^2]
+    
 */
 @TeleOp
 public class MyFIRSTJavaOpMode extends LinearOpMode {
