@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.teamcode.robot.Movement;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.toRadians;
+
 /*   Hardware Mapping Config
          device -> name
  -----------------------------
@@ -34,6 +37,8 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
         while (opModeInInit()) {
             telemetry.addData("Status","Ready to Start");
             telemetry.update();
+            robotMovement.setTurnSpeed(toRadians(5)); // 5 degrees/second
+            robotMovement.UpdateRobot();
         }
 
         // Send to the robot movement controller Init has ended

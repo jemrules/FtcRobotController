@@ -12,17 +12,30 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
 
 public class Movement {
+    // SETTINGS
+    public static double TURN_SCALE=1;
+    public static double DRIVE_SCALE=1;
+    public static double MOTOR_RPM=6000.0; // The Motors RPM
+    public static double GEAR_RATIO=1.0/20.0; // The gear ratio coming out of the motor
+    public static double WHEEL_DIAMETER=92.0/1000.0; // The diameter of the wheels [mm] to [m]
+    public static double WHEEL_SPACING=38.0/100.0; // The distance between the left and right wheels [cm] to [m]
+
+
+
     public VectorF position;
-    public double targetHeading;
+    public double turn_rate;
+    public VectorF movement_vector;
     public IMU imu;
     public DcMotor left_motor;
     public DcMotor right_motor;
     public Movement(VectorF default_position, double default_heading, HardwareMap hardwareMap) {
         // Set the default position and default heading
         position=default_position;
-        targetHeading=default_heading;
+        turn_rate=0;
+        movement_vector=new VectorF(0.0f,0.0f);
 
         // CONTROL HUB ORIENTATION SETTINGS
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
@@ -46,6 +59,17 @@ public class Movement {
     public void RobotStart() {
         imu.resetYaw();
     } // Reset Yaw to 0
+    public void UpdateRobot() {
+        // TODO: Add position tracker
+        double left_power=
+                turn_rate*TURN_SCALE/2.0
+                +((double)movement_vector.getData()[1])*DRIVE_SCALE/2;
+        double right_power=
+                turn_rate*TURN_SCALE/-2.0
+                +((double)movement_vector.getData()[1])*DRIVE_SCALE/2;
+        left_motor.setPower(left_power);
+        right_motor.setPower(right_power);
+    }
     // Get heading from the IMU (Control Hub)
     public double getHeading() {
         YawPitchRollAngles YPRAimu = imu.getRobotYawPitchRollAngles();
@@ -54,10 +78,10 @@ public class Movement {
     /**
      * @param turn_rate Turing speed of the robot [rad/s]
      */
-    public void setTurnSpeed(double turn_rate) {
-
+    public void setTurnSpeed(double target_turn_rate) {
+        turn_rate=target_turn_rate;
     }
-    public void setHeading(double target_heading) {
+    public void holdHeading(double target_heading) {
 
     }
     public void lookAt(VectorF target_position) {
