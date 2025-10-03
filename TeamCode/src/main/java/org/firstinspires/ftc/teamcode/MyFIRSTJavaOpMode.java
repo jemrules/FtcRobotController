@@ -37,11 +37,14 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
         while (opModeInInit()) {
             telemetry.addData("Status","Ready to Start");
             telemetry.update();
-            robotMovement.setTurnSpeed(toRadians(5)); // 5 degrees/second
-            robotMovement.UpdateRobot();
         }
-
         // Send to the robot movement controller Init has ended
         robotMovement.RobotStart();
+
+        while (opModeIsActive()) {
+            robotMovement.setTurnSpeed(gamepad1.right_stick_x); // 5 degrees/second
+            robotMovement.movement_vector.put(1,gamepad1.left_stick_y);
+            robotMovement.UpdateRobot();
+        }
     }
 }

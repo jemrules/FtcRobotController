@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
+import static java.lang.Math.abs;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
@@ -52,7 +53,7 @@ public class Movement {
 
         // MOTOR DIRECTION SETTINGS
         left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
-        right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
     // Set default_heading to 0.0 if default_heading isn't given
     public Movement(VectorF default_position, HardwareMap hardwareMap) {this(default_position,0.0,hardwareMap);}
@@ -61,8 +62,9 @@ public class Movement {
     } // Reset Yaw to 0
     public void UpdateRobot() {
         // TODO: Add position tracker
+        //double turn=abs(turn_rate);
         double left_power=
-                turn_rate*TURN_SCALE/2.0
+                turn_rate*TURN_SCALE
                 +((double)movement_vector.getData()[1])*DRIVE_SCALE/2;
         double right_power=
                 turn_rate*TURN_SCALE/-2.0
@@ -76,7 +78,7 @@ public class Movement {
         return YPRAimu.getYaw(AngleUnit.RADIANS);
     }
     /**
-     * @param turn_rate Turing speed of the robot [rad/s]
+     * @param target_turn_rate Turing speed of the robot [rad/s]
      */
     public void setTurnSpeed(double target_turn_rate) {
         turn_rate=target_turn_rate;
