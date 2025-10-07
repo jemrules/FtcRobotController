@@ -64,7 +64,7 @@ public class Movement {
         // TODO: Add position tracker
         //double turn=abs(turn_rate);
         double left_power=
-                turn_rate*TURN_SCALE
+                turn_rate*TURN_SCALE/2.0
                 +((double)movement_vector.getData()[1])*DRIVE_SCALE/2;
         double right_power=
                 turn_rate*TURN_SCALE/-2.0
