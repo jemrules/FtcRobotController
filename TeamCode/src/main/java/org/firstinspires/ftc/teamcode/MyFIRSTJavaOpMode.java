@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.teamcode.robot.Movement;
+import org.firstinspires.ftc.teamcode.robot.Sensors;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.toRadians;
@@ -27,12 +28,14 @@ import static java.lang.Math.toRadians;
 @TeleOp
 public class MyFIRSTJavaOpMode extends LinearOpMode {
     public Movement robotMovement;
+    public Sensors robotSensors;
     @Override
     public void runOpMode() {
-        robotMovement =new Movement(
+        robotMovement = new Movement(
                 new VectorF(0.0f,0.0f,0.0f), // Set default position to 0,0,0
                 hardwareMap); // Pass the ability to interact with hardware
-
+        robotSensors = new Sensors(
+                hardwareMap);
         // Wait until the play button is pressed
         while (opModeInInit()) {
             telemetry.addData("Status","Ready to Start");
