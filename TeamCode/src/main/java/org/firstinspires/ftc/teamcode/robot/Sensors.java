@@ -15,6 +15,8 @@ public class Sensors {
         visionPortal = VisionPortal.easyCreateWithDefaults(
                 hardwareMap.get(WebcamName.class,"Webcam 1")
         );
+    }
+    public void updateRobot() {
 
     }
 }
