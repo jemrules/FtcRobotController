@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot;
 
+import static org.firstinspires.ftc.teamcode.util.TrigMath.subtractAngles;
+
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -84,7 +86,10 @@ public class Movement {
         turn_rate=target_turn_rate;
     }
     public void holdHeading(double target_heading) {
-
+        double INTERVAL=0.001;
+        double currentHeading=getHeading();
+        double turnDiff=subtractAngles(currentHeading,target_heading);
+        setTurnSpeed(turnDiff*INTERVAL);
     }
     public void lookAt(VectorF target_position) {
 
