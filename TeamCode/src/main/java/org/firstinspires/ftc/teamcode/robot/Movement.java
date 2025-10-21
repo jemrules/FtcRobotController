@@ -97,14 +97,20 @@ public class Movement {
         double angle2target=atan2(targetVector.get(0),targetVector.get(1));
         holdHeading(angle2target);
     }
-    // Drive in that direction
-    public void driveTo(VectorF target_vector,boolean drive_and_turn) {
-
+    // Drive in target_vector direction (Target Vector is relative to the robots location)
+    public void driveTo(VectorF target_vector,double speed,boolean turn_towards) {
+        double heading=getHeading();
+        double angle2target = atan2(target_vector.get(0), target_vector.get(1));
+        if (turn_towards) {
+            holdHeading(angle2target);
+        }
+        movement_vector=new VectorF((float)cos(angle2target-heading),(float)sin(angle2target-heading));
     }
-    public void driveTo(double orientation,double distance,boolean drive_and_turn) {
+    public void driveTo(double orientation,double distance,double speed,boolean turn_towards) {
         driveTo(new VectorF(
                 (float)(cos(orientation)*distance),
                 (float)(sin(orientation)*distance)),
-                drive_and_turn);
+                speed,
+                turn_towards);
     }
 }
