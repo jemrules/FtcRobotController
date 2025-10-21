@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.util;
 import static java.lang.Math.PI;
 
 
-public class conversion {
+public class Conversion {
     public static float in2m(float value) {return value/39.3701f;}
     public static double in2m(double value) {return value/39.3701;}
 
