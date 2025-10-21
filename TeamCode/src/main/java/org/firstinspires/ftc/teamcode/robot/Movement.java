@@ -87,9 +87,9 @@ public class Movement {
     }
     public void holdHeading(double target_heading) {
         double INTERVAL=0.001;
-        double currentHeading=getHeading();
-        double turnDiff=subtractAngles(currentHeading,target_heading);
-        setTurnSpeed(turnDiff*INTERVAL);
+        double current_heading=getHeading();
+        double turn_diff=subtractAngles(current_heading,target_heading);
+        setTurnSpeed(turn_diff*INTERVAL);
     }
     public void lookAt(VectorF target_position) {
 
