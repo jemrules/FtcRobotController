@@ -107,7 +107,7 @@ public class Movement {
         if (turn_towards) {
             holdHeading(angle2target);
         }
-        movement_vector=new VectorF((float)cos(angle2target-heading),(float)sin(angle2target-heading));
+        movement_vector=new VectorF((float)(cos(angle2target-heading)*speed),(float)(sin(angle2target-heading)*speed));
     }
     public void driveTo(double orientation,double distance,double speed,boolean turn_towards) {
         driveTo(new VectorF(
