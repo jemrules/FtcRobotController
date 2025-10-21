@@ -93,7 +93,8 @@ public class Movement {
         setTurnSpeed(turn_diff*INTERVAL);
     }
     public void lookToward(VectorF target_position) {
-        double angle2target=atan2(target_position.get(0),target_position.get(1));
+        VectorF targetVector=target_position.subtracted(position);
+        double angle2target=atan2(targetVector.get(0),targetVector.get(1));
         holdHeading(angle2target);
     }
     // Drive in that direction
