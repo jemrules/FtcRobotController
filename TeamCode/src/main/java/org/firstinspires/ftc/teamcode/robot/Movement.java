@@ -91,8 +91,9 @@ public class Movement {
         double turn_diff=subtractAngles(current_heading,target_heading);
         setTurnSpeed(turn_diff*INTERVAL);
     }
-    public void lookAt(VectorF target_position) {
-
+    public void lookToward(VectorF target_position) {
+        double angle2target=atan2(target_position.get(0),target_position.get(1));
+        holdHeading(angle2target);
     }
     // Drive in that direction
     public void driveTo(VectorF target_vector,boolean drive_and_turn) {
