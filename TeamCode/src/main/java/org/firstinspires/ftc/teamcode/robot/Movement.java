@@ -92,6 +92,9 @@ public class Movement {
         double turn_diff=subtractAngles(current_heading,target_heading);
         setTurnSpeed(turn_diff*INTERVAL);
     }
+    /**
+     * @param target_position Target global 2D position [m]
+     */
     public void lookToward(VectorF target_position) {
         VectorF targetVector=target_position.subtracted(position);
         double angle2target=atan2(targetVector.get(0),targetVector.get(1));
