@@ -20,7 +20,7 @@ public class LauncherTest extends LinearOpMode {
         launcher.RobotStart();
 
         while (opModeIsActive()) {
-            launcher.setRPS(gamepad1.right_stick_y);
+            launcher.setRPS(gamepad1.right_stick_y*120.0);
             launcher.UpdateRobot();
             telemetry.addData("Motor Speed %",launcher.getPower());
             launcher.debugData(telemetry);
