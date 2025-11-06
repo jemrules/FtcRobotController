@@ -48,7 +48,7 @@ public class Launcher {
     public void UpdateRobot() {
         flywheel_motor.setVelocity(min(flywheel_rps,120), AngleUnit.DEGREES);
     }
-    public void SetRPS(double rps) {
+    public void setRPS(double rps) {
         flywheel_rps=rps;
     }
     public double getPower() {
