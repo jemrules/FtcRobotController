@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.robot.Launcher;
 
 @TeleOp
-public class LauncherTest  extends LinearOpMode {
+public class LauncherTest extends LinearOpMode {
     Launcher launcher;
     @Override
     public void runOpMode() {
@@ -22,6 +22,7 @@ public class LauncherTest  extends LinearOpMode {
         while (opModeIsActive()) {
             launcher.setRPS(gamepad1.right_stick_y);
             launcher.UpdateRobot();
+            telemetry.addData("Motor Speed %",launcher.getPower());
             launcher.debugData(telemetry);
         }
     }
