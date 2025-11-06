@@ -20,8 +20,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Launcher {
     // PID Settings
-    public static final double PID_P=0.0;
-    public static final double PID_I=0.0;
+    public static final double PID_P=10.0;
+    public static final double PID_I=3.0;
     public static final double PID_D=0.0;
 
     Movement movement;
@@ -46,7 +46,7 @@ public class Launcher {
 
     }
     public void UpdateRobot() {
-        flywheel_motor.setVelocity(min(flywheel_rps,120), AngleUnit.DEGREES);
+        flywheel_motor.setVelocity(min(flywheel_rps,120.0), AngleUnit.DEGREES);
     }
     public void setRPS(double rps) {
         flywheel_rps=rps;
