@@ -30,14 +30,20 @@ public class Launcher {
     public DcMotorEx flywheel_motor; // [RPS]
     public DcMotor feeder_motor;
     public Servo agitator_servo;
-    public Launcher(Movement movement_inst, HardwareMap hardwareMap) {
-        movement = movement_inst;
+    public Launcher(HardwareMap hardwareMap) {
 
         // map Motors
         flywheel_motor=(DcMotorEx)hardwareMap.get(DcMotor.class,"flywheel_motor");
         feeder_motor=hardwareMap.get(DcMotor.class,"feeder_motor");
 
         agitator_servo=hardwareMap.get(Servo.class,"agitator_servo");
+    }
+    public Launcher(HardwareMap hardwareMap,Movement movement_inst) {
+        this(hardwareMap);
+        movement = movement_inst;
+    }
+    public void RobotStart() {
+
     }
     public void UpdateRobot() {
         flywheel_motor.setVelocity(min(flywheel_rps,120), AngleUnit.DEGREES);
