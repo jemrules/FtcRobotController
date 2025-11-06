@@ -32,6 +32,7 @@ public class ManualDrive extends LinearOpMode {
 
         while (opModeIsActive()) {
             launcher.setRPS(gamepad1.right_stick_y*120.0);
+            launcher.setFeederOnOff(gamepad1.left_bumper);
 
             robotMovement.setTurnSpeed(gamepad1.left_stick_x); // 5 degrees/second
             robotMovement.movement_vector.put(1, gamepad1.left_stick_y);

@@ -26,6 +26,7 @@ public class Launcher {
 
     Movement movement;
     public double flywheel_rps=0.0;
+    public boolean feeder=false;
 
     public DcMotorEx flywheel_motor; // [RPS]
     public DcMotor feeder_motor;
@@ -47,12 +48,20 @@ public class Launcher {
     }
     public void UpdateRobot() {
         flywheel_motor.setVelocity(min(flywheel_rps,120.0), AngleUnit.DEGREES);
+        if (feeder) {
+            feeder_motor.setPower(0.25);
+        } else {
+            feeder_motor.setPower(0);
+        }
     }
     public void setRPS(double rps) {
         flywheel_rps=rps;
     }
     public double getPower() {
         return flywheel_rps / 120.0;
+    }
+    public void setFeederOnOff(boolean state) {
+        feeder=state;
     }
     public void debugData(Telemetry telemetry) {
         PIDFCoefficients pidCoefficients = flywheel_motor.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
