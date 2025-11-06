@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.robot;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
@@ -35,8 +36,9 @@ public class Launcher {
 
         // map Motors
         flywheel_motor=(DcMotorEx)hardwareMap.get(DcMotor.class,"flywheel_motor");
-        feeder_motor=hardwareMap.get(DcMotor.class,"feeder_motor");
 
+        feeder_motor=hardwareMap.get(DcMotor.class,"feeder_motor");
+        feeder_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         agitator_servo=hardwareMap.get(Servo.class,"agitator_servo");
     }
     public Launcher(HardwareMap hardwareMap,Movement movement_inst) {
@@ -47,9 +49,9 @@ public class Launcher {
 
     }
     public void UpdateRobot() {
-        flywheel_motor.setVelocity(min(flywheel_rps,120.0), AngleUnit.DEGREES);
+        flywheel_motor.setVelocity(min(flywheel_rps,120.0)*60.0, AngleUnit.DEGREES);
         if (feeder) {
-            feeder_motor.setPower(0.25);
+            feeder_motor.setPower(1);
         } else {
             feeder_motor.setPower(0);
         }
