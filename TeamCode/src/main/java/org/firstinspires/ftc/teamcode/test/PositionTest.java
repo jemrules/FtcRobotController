@@ -32,7 +32,7 @@ public class PositionTest extends LinearOpMode {
             robotMovement.movement_vector.put(1, gamepad1.left_stick_y);
 
             // Update Robot
-            robotMovement.UpdateRobot();
+            robotMovement.UpdateRobot(telemetry);
         }
     }
 }

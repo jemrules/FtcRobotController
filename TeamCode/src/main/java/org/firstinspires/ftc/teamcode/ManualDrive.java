@@ -39,7 +39,7 @@ public class ManualDrive extends LinearOpMode {
 
             // Update Robot
             launcher.UpdateRobot();
-            robotMovement.UpdateRobot();
+            robotMovement.UpdateRobot(telemetry);
         }
     }
 }

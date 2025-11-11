@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.robot;
 
+import static org.firstinspires.ftc.teamcode.util.Misc.Clamp;
 import static org.firstinspires.ftc.teamcode.util.TrigMath.subtractAngles;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
@@ -16,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import static java.lang.Math.abs;
 import static java.lang.Math.atan2;
 import static java.lang.Math.cos;
+import static java.lang.Math.min;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 
@@ -36,6 +39,8 @@ public class Movement {
     public IMU imu;
     public DcMotorEx left_motor;
     public DcMotorEx right_motor;
+    public double left_power_motor=0.0;
+    public double right_power_motor=0.0;
     public Movement(VectorF default_position, double default_heading, HardwareMap hardwareMap) {
         // Set the default position and default heading
         position=default_position;
@@ -64,17 +69,23 @@ public class Movement {
     public void RobotStart() {
         imu.resetYaw();
     } // Reset Yaw to 0
-    public void UpdateRobot() {
+    public void UpdateRobot(Telemetry telemetry) {
         // TODO: Add position tracker
         //double turn=abs(turn_rate);
+
         double left_power=
                 turn_rate*TURN_SCALE/2.0
-                +((double)movement_vector.getData()[1])*DRIVE_SCALE/2;
+                +((double)movement_vector.getData()[1])*DRIVE_SCALE/2.0;
         double right_power=
                 turn_rate*TURN_SCALE/-2.0
-                +((double)movement_vector.getData()[1])*DRIVE_SCALE/2;
-        left_motor.setPower(left_power);
-        right_motor.setPower(right_power);
+                +((double)movement_vector.getData()[1])*DRIVE_SCALE/2.0;
+        left_power_motor+=(Clamp(left_power,-1.0,1.0)-left_power_motor)/60.0;
+        right_power_motor+=(Clamp(right_power,-1.0,1.0)-right_power_motor)/60.0;
+        left_motor.setPower(left_power_motor);
+        right_motor.setPower(right_power_motor);
+        telemetry.addData("LeftMotor",left_power_motor);
+        telemetry.addData("RightMotor",right_power_motor);
+        telemetry.update();
     }
     // Get heading from the IMU (Control Hub)
     public double getHeading() {
