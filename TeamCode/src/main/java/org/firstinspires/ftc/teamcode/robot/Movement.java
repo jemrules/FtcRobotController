@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.util.TrigMath.subtractAngles;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -33,8 +34,8 @@ public class Movement {
     public double turn_rate;
     public VectorF movement_vector;
     public IMU imu;
-    public DcMotor left_motor;
-    public DcMotor right_motor;
+    public DcMotorEx left_motor;
+    public DcMotorEx right_motor;
     public Movement(VectorF default_position, double default_heading, HardwareMap hardwareMap) {
         // Set the default position and default heading
         position=default_position;
@@ -51,8 +52,8 @@ public class Movement {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         // Set DC Motor variables
-        left_motor=hardwareMap.get(DcMotor.class,"left_motor");
-        right_motor=hardwareMap.get(DcMotor.class,"right_motor");
+        left_motor=(DcMotorEx)hardwareMap.get(DcMotor.class,"left_motor");
+        right_motor=(DcMotorEx)hardwareMap.get(DcMotor.class,"right_motor");
 
         // MOTOR DIRECTION SETTINGS
         left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
