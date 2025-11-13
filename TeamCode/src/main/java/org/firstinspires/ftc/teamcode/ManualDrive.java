@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.util.Misc.Clamp;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -13,6 +15,7 @@ public class ManualDrive extends LinearOpMode {
     public Launcher launcher;
     public Movement robotMovement;
     public Sensors robotSensors;
+    public double launcher_throttle=0.0;
     @Override
     public void runOpMode() {
         launcher=new Launcher(hardwareMap);
@@ -31,7 +34,17 @@ public class ManualDrive extends LinearOpMode {
         launcher.RobotStart();
 
         while (opModeIsActive()) {
-            launcher.setRPS(gamepad1.right_stick_y*120.0);
+            double right_stick_y=gamepad1.right_stick_y*-1.0;
+            if (right_stick_y>0.0 && launcher_throttle<=0.0) {
+                launcher_throttle=0.0;
+            }
+            launcher_throttle = Clamp(launcher_throttle+right_stick_y/(60.0*8.0*8.0),0.0,1.0);
+            if (right_stick_y<=0.0 && launcher_throttle<=0.0) {
+                launcher_throttle = right_stick_y * 0.01;
+            }
+            telemetry.addData("speed",launcher_throttle);
+
+            launcher.setRPS(launcher_throttle*-120.0);
             launcher.setFeederOnOff(gamepad1.left_bumper);
 
             robotMovement.setTurnSpeed(gamepad1.left_stick_x); // 5 degrees/second
