@@ -39,6 +39,7 @@ public class Movement {
     public IMU imu;
     public DcMotorEx left_motor;
     public DcMotorEx right_motor;
+    //public PIDController movementPID;
     public double left_power_motor=0.0;
     public double right_power_motor=0.0;
     public Movement(VectorF default_position, double default_heading, HardwareMap hardwareMap) {
@@ -63,6 +64,7 @@ public class Movement {
         // MOTOR DIRECTION SETTINGS
         left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
         right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //movementPID = PIDController(0.5, 0, 0, );
     }
     // Set default_heading to 0.0 if default_heading isn't given
     public Movement(VectorF default_position, HardwareMap hardwareMap) {this(default_position,0.0,hardwareMap);}
