@@ -31,7 +31,7 @@ public class Movement {
     public static double WHEEL_DIAMETER=92.0/1000.0; // The diameter of the wheels [mm] to [m]
     public static double WHEEL_SPACING=38.0/100.0; // The distance between the left and right wheels [cm] to [m]
 
-
+    public double MOTOR_SMOOTHING=10.0;
 
     public VectorF position;
     public double turn_rate;
@@ -79,8 +79,8 @@ public class Movement {
         double right_power=
                 turn_rate*TURN_SCALE/-2.0
                 +((double)movement_vector.getData()[1])*DRIVE_SCALE/2.0;
-        left_power_motor+=(Clamp(left_power,-1.0,1.0)-left_power_motor)/60.0;
-        right_power_motor+=(Clamp(right_power,-1.0,1.0)-right_power_motor)/60.0;
+        left_power_motor+=(Clamp(left_power,-1.0,1.0)-left_power_motor)/MOTOR_SMOOTHING;
+        right_power_motor+=(Clamp(right_power,-1.0,1.0)-right_power_motor)/MOTOR_SMOOTHING;
         left_motor.setPower(left_power_motor);
         right_motor.setPower(right_power_motor);
         telemetry.addData("LeftMotor",left_power_motor);
