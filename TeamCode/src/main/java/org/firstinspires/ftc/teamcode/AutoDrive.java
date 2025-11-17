@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.teamcode.robot.Movement;
 import org.firstinspires.ftc.teamcode.robot.Sensors;
 
 
-@TeleOp
+@Autonomous
 public class AutoDrive extends LinearOpMode {
     public Launcher launcher;
     public Movement robotMovement;
@@ -40,6 +41,7 @@ public class AutoDrive extends LinearOpMode {
                 robotMovement.movement_vector.put(1,0.0f);
                 assert drive_time.seconds()<3.0 && robotMovement.movement_vector.get(1)==0.0f : "Robot Vector not resetting to 0.0f";
             }
+            robotMovement.UpdateRobot(telemetry);
         }
     }
 }
