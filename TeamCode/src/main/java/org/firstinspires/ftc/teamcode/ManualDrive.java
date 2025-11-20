@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.robot.Sensors;
 
 @TeleOp
 public class ManualDrive extends LinearOpMode {
-    static double LAUNCHER_STICK_SENSITIVITY =8;
+    static double LAUNCHER_STICK_SENSITIVITY =8.0;
     static double MOVEMENT_STICK_SENSITIVITY = -1.f;
     public Launcher launcher;
     public Movement robotMovement;
@@ -37,13 +37,9 @@ public class ManualDrive extends LinearOpMode {
 
         while (opModeIsActive()) {
             double right_stick_y=gamepad1.right_stick_y*MOVEMENT_STICK_SENSITIVITY;
-            if (right_stick_y>0.0 && launcher_throttle<=0.0) {
-                launcher_throttle=0.0;
-            }
-            launcher_throttle = Clamp(launcher_throttle+right_stick_y/(60.0*LAUNCHER_STICK_SENSITIVITY*2),0.0,1.0);
-            if (right_stick_y<=0.0 && launcher_throttle<=0.0) {
-                launcher_throttle = right_stick_y * 0.01;
-            }
+            telemetry.addData("stick",right_stick_y);
+            launcher_throttle = Clamp(right_stick_y*0.15,0.0,0.15);
+
             telemetry.addData("speed",launcher_throttle);
 
             launcher.setRPS(launcher_throttle*-120.0);
