@@ -14,11 +14,19 @@ import org.firstinspires.ftc.teamcode.robot.Sensors;
 public class ManualDrive extends LinearOpMode {
     static double LAUNCHER_STICK_SENSITIVITY =8.0;
     static double MOVEMENT_STICK_SENSITIVITY = -1.f;
+
+    // reduces debug messages when false
+    static boolean VERBOSE_MODE = true;
     public Launcher launcher;
     public Movement robotMovement;
     public Sensors robotSensors;
     public double launcher_throttle=0.0;
-    @Override
+    public void output_double(String caption, double output, boolean override_verbose) {
+        if(VERBOSE_MODE || override_verbose) {
+            telemetry.addData(caption, output);
+            telemetry.update();
+        }
+    }    @Override
     public void runOpMode() {
         launcher=new Launcher(hardwareMap);
         robotMovement = new Movement(
@@ -34,24 +42,26 @@ public class ManualDrive extends LinearOpMode {
         // Send to the robot movement controller Init has ended
         robotMovement.RobotStart();
         launcher.RobotStart();
-
+        // loops forever while its running
         while (opModeIsActive()) {
+
             double right_stick_y=gamepad1.right_stick_y*MOVEMENT_STICK_SENSITIVITY;
-            telemetry.addData("stick",right_stick_y);
+            if(VERBOSE_MODE)
+                telemetry.addData("Movement Stick",right_stick_y);
             launcher_throttle = Clamp(right_stick_y*0.15,0.0,0.15);
 
             double currentRPS = launcher.getRPS();
             // if the motor is off dont show speed
             // we have 0.1 instead of 0 because of errors in rpm sensor
-            if(currentRPS <= 0.1) {
-                telemetry.addData("speed", launcher_throttle);
-                launcher.setRPS(launcher_throttle * -120.0);
-                launcher.setFeederOnOff(gamepad1.left_bumper);
-
-                telemetry.addData("Launcher charge: ", launcher.getPercentage());
-                if(launcher.getPercentage() > 95) {
-                    // rumble the controller for ___ ms when the launcher is at speed
-                    gamepad1.rumble(500);
+            if(currentRPS >= 0.1)
+                    if(VERBOSE_MODE)
+                        telemetry.addData("Launcher Target", launcher_throttle);
+                    launcher.setRPS(launcher_throttle * -120.0);
+                    launcher.setFeederOnOff(gamepad1.left_bumper);
+                    telemetry.addData("Launcher charge: ", launcher.getPercentage());
+                    if (launcher.getPercentage() > 95) {
+                        // rumble the controller for ___ ms when the launcher is at speed
+                        gamepad1.rumble(500);
                 }
             }
 
