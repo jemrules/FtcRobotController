@@ -40,10 +40,20 @@ public class ManualDrive extends LinearOpMode {
             telemetry.addData("stick",right_stick_y);
             launcher_throttle = Clamp(right_stick_y*0.15,0.0,0.15);
 
-            telemetry.addData("speed",launcher_throttle);
+            double currentRPS = launcher.getRPS();
+            // if the motor is off dont show speed
+            // we have 0.1 instead of 0 because of errors in rpm sensor
+            if(currentRPS <= 0.1) {
+                telemetry.addData("speed", launcher_throttle);
+                launcher.setRPS(launcher_throttle * -120.0);
+                launcher.setFeederOnOff(gamepad1.left_bumper);
 
-            launcher.setRPS(launcher_throttle*-120.0);
-            launcher.setFeederOnOff(gamepad1.left_bumper);
+                telemetry.addData("Launcher charge: ", launcher.getPercentage());
+                if(launcher.getPercentage() > 95) {
+                    // rumble the controller for ___ ms when the launcher is at speed
+                    gamepad1.rumble(500);
+                }
+            }
 
             robotMovement.setTurnSpeed(gamepad1.left_stick_x); // 5 degrees/second
             robotMovement.movement_vector.put(1, gamepad1.left_stick_y);

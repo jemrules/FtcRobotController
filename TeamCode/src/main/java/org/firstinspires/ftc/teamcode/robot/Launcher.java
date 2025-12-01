@@ -25,6 +25,9 @@ public class Launcher {
     public static final double PID_I=3.0;
     public static final double PID_D=0.0;
 
+
+    public static double percentage = 0.0;
+
     Movement movement;
     public double flywheel_rps=0.0;
     public boolean feeder=false;
@@ -55,10 +58,17 @@ public class Launcher {
         } else {
             feeder_motor.setPower(0);
         }
+        double currentSpeed = flywheel_motor.getVelocity();
+        double targetSpeed = flywheel_rps;
+        // percentage of the target launcher speed
+        percentage = abs((currentSpeed/targetSpeed))*100;
     }
     public void setRPS(double rps) {
         flywheel_rps=rps;
     }
+
+    public double getPercentage(){return percentage; }
+    public double getRPS() {return flywheel_rps; }
     public double getPower() {
         return flywheel_rps / 120.0;
     }
