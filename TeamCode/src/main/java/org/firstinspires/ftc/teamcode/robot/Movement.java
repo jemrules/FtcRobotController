@@ -30,8 +30,7 @@ public class Movement {
     public static double GEAR_RATIO=1.0/20.0; // The gear ratio coming out of the motor
     public static double WHEEL_DIAMETER=92.0/1000.0; // The diameter of the wheels [mm] to [m]
     public static double WHEEL_SPACING=38.0/100.0; // The distance between the left and right wheels [cm] to [m]
-
-    public double MOTOR_SMOOTHING=10.0;
+    public static double MAX_MOTOR_ACCELERATION=5.0/2.0;
 
     public VectorF position;
     public double turn_rate;
