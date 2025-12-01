@@ -37,11 +37,11 @@ public class Movement {
     public double turn_rate;
     public VectorF movement_vector;
     public IMU imu;
-    public DcMotorEx left_motor;
-    public DcMotorEx right_motor;
-    //public PIDController movementPID;
-    public double left_power_motor=0.0;
-    public double right_power_motor=0.0;
+    public DcMotorEx[] motors;
+    public double[] motors_power={
+            0.0, 0.0,
+            0.0, 0.0
+    };
     public Movement(VectorF default_position, double default_heading, HardwareMap hardwareMap) {
         // Set the default position and default heading
         position=default_position;
@@ -58,12 +58,6 @@ public class Movement {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         // Set DC Motor variables
-        left_motor=(DcMotorEx)hardwareMap.get(DcMotor.class,"left_motor");
-        right_motor=(DcMotorEx)hardwareMap.get(DcMotor.class,"right_motor");
-
-        // MOTOR DIRECTION SETTINGS
-        left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
-        right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         //movementPID = PIDController(0.5, 0, 0, );
     }
     // Set default_heading to 0.0 if default_heading isn't given
@@ -73,20 +67,7 @@ public class Movement {
     } // Reset Yaw to 0
     public void UpdateRobot(Telemetry telemetry) {
         // TODO: Add position tracker
-        //double turn=abs(turn_rate);
 
-        double left_power=
-                turn_rate*TURN_SCALE/2.0
-                +((double)movement_vector.getData()[1])*DRIVE_SCALE/2.0;
-        double right_power=
-                turn_rate*TURN_SCALE/-2.0
-                +((double)movement_vector.getData()[1])*DRIVE_SCALE/2.0;
-        left_power_motor+=(Clamp(left_power,-1.0,1.0)-left_power_motor)/MOTOR_SMOOTHING;
-        right_power_motor+=(Clamp(right_power,-1.0,1.0)-right_power_motor)/MOTOR_SMOOTHING;
-        left_motor.setPower(left_power_motor);
-        right_motor.setPower(right_power_motor);
-        telemetry.addData("LeftMotor",left_power_motor);
-        telemetry.addData("RightMotor",right_power_motor);
         telemetry.update();
     }
     // Get heading from the IMU (Control Hub)
