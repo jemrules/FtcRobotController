@@ -36,8 +36,8 @@ public class Movement {
     public double turn_rate;
     public VectorF movement_vector;
     public IMU imu;
-    public DcMotorEx[] motors;
-    public double[] motors_power={
+    public DcMotorEx[] motors=new DcMotorEx[4];
+    public double[] motors_velocity={
             0.0, 0.0,
             0.0, 0.0
     };
@@ -57,7 +57,12 @@ public class Movement {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         // Set DC Motor variables
-        //movementPID = PIDController(0.5, 0, 0, );
+        DcMotorEx[] motors={
+                (DcMotorEx)hardwareMap.get(DcMotor.class,"motor_2"),
+                (DcMotorEx)hardwareMap.get(DcMotor.class,"motor_4"),
+                (DcMotorEx)hardwareMap.get(DcMotor.class,"motor_1"),
+                (DcMotorEx)hardwareMap.get(DcMotor.class,"motor_3"),
+        };
     }
     // Set default_heading to 0.0 if default_heading isn't given
     public Movement(VectorF default_position, HardwareMap hardwareMap) {this(default_position,0.0,hardwareMap);}
@@ -66,6 +71,11 @@ public class Movement {
     } // Reset Yaw to 0
     public void UpdateRobot(Telemetry telemetry) {
         // TODO: Add position tracker
+        // Horizontal Drive
+        //  F/B
+
+        //  L/R
+        // Turning
 
         telemetry.update();
     }
