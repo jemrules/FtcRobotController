@@ -24,7 +24,7 @@ public class AutoDrive extends LinearOpMode {
                 hardwareMap); // Pass the ability to interact with hardware
         robotSensors = new Sensors(
                 hardwareMap);
-        double wheel_max_rps=robotMovement.left_motor.getMotorType().getMaxRPM()/60.0;
+        //double wheel_max_rps=robotMovement.left_motor.getMotorType().getMaxRPM()/60.0;
         // Wait until the play button is pressed
         while (opModeInInit()) {
             telemetry.addData("Status", "Ready to Start");

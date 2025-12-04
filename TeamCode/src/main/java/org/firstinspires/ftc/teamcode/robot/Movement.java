@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 import static java.lang.Math.abs;
@@ -21,6 +22,9 @@ import static java.lang.Math.cos;
 import static java.lang.Math.min;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class Movement {
     // SETTINGS
@@ -57,11 +61,11 @@ public class Movement {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         // Set DC Motor variables
-        DcMotorEx[] motors={
-                (DcMotorEx)hardwareMap.get(DcMotor.class,"motor_2"),
-                (DcMotorEx)hardwareMap.get(DcMotor.class,"motor_4"),
-                (DcMotorEx)hardwareMap.get(DcMotor.class,"motor_1"),
-                (DcMotorEx)hardwareMap.get(DcMotor.class,"motor_3"),
+        motors= new DcMotorEx[]{
+                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_2"),
+                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_4"),
+                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_1"),
+                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_3"),
         };
     }
     // Set default_heading to 0.0 if default_heading isn't given
@@ -71,12 +75,30 @@ public class Movement {
     } // Reset Yaw to 0
     public void UpdateRobot(Telemetry telemetry) {
         // TODO: Add position tracker
+        Arrays.fill(motors_velocity,0.0);
         // Horizontal Drive
         //  F/B
-
+        for (int i=0;i<motors_velocity.length; i++) {
+            motors_velocity[i]+=movement_vector.get(1)/3.0;
+        }
         //  L/R
+        for (int i=0;i<motors_velocity.length; i++) {
+            motors_velocity[i]+=
+                    movement_vector.get(0)/3.0
+                            *((i>=1 & i<=2) ? -1.0 : 1.0); // Invert Diagonal Motors
+        }
         // Turning
+        for (int i=0;i<motors_velocity.length; i++) {
+            motors_velocity[i]+=
+                    turn_rate/3.0
+                            *(i%2==0 ? 1.0 : -1.0); // Invert Side Motors
+        }
 
+        //Set motor Speed
+        for (int i=0;i<motors.length; i++) {
+            telemetry.addData("Motor_"+i,motors_velocity[i]+","+motors[i].getVelocity()+","+motors[i].getCurrent(CurrentUnit.MILLIAMPS));
+            motors[i].setPower(motors_velocity[i]);
+        }
         telemetry.update();
     }
     // Get heading from the IMU (Control Hub)
@@ -101,13 +123,13 @@ public class Movement {
      */
     public void lookToward(VectorF target_position) {
         VectorF targetVector=target_position.subtracted(position);
-        double angle2target=atan2(targetVector.get(0),targetVector.get(1));
+        double angle2target=atan2(targetVector.get(1),targetVector.get(0));
         holdHeading(angle2target);
     }
     // Drive in target_vector direction (Target Vector is relative to the robots location)
     public void driveTo(VectorF target_vector,double speed,boolean turn_towards) {
         double heading=getHeading();
-        double angle2target = atan2(target_vector.get(0), target_vector.get(1));
+        double angle2target = atan2(target_vector.get(1), target_vector.get(0));
         if (turn_towards) {
             holdHeading(angle2target);
         }
