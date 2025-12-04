@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
@@ -19,6 +20,7 @@ import static java.lang.Math.abs;
 import static java.lang.Math.atan2;
 import static java.lang.Math.cos;
 import static java.lang.Math.min;
+import static java.lang.Math.round;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 
@@ -31,7 +33,7 @@ public class Movement {
     public static double WHEEL_DIAMETER=92.0/1000.0; // The diameter of the wheels [mm] to [m]
     public static double WHEEL_SPACING=38.0/100.0; // The distance between the left and right wheels [cm] to [m]
 
-    public double MOTOR_SMOOTHING=10.0;
+    public double MAX_ACCELERATION=1.0/2.0; // [%/s^2]
 
     public VectorF position;
     public double turn_rate;
@@ -40,8 +42,11 @@ public class Movement {
     public DcMotorEx left_motor;
     public DcMotorEx right_motor;
     //public PIDController movementPID;
-    public double left_power_motor=0.0;
-    public double right_power_motor=0.0;
+    public double steering_power=0.0;
+    public double drive_power=0.0;
+
+    public ElapsedTime last_cycle;
+    public double refresh_rate=60.0; // [Hz]
     public Movement(VectorF default_position, double default_heading, HardwareMap hardwareMap) {
         // Set the default position and default heading
         position=default_position;
@@ -64,6 +69,11 @@ public class Movement {
         // MOTOR DIRECTION SETTINGS
         left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
         right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        refresh_rate=60.0;
+        // Timer to detect refresh rate
+        last_cycle=new ElapsedTime();
+
         //movementPID = PIDController(0.5, 0, 0, );
     }
     // Set default_heading to 0.0 if default_heading isn't given
@@ -73,20 +83,25 @@ public class Movement {
     } // Reset Yaw to 0
     public void UpdateRobot(Telemetry telemetry) {
         // TODO: Add position tracker
-        //double turn=abs(turn_rate);
+        // Limits Drive power to MAX_ACCELERATION
+        drive_power=drive_power+Clamp(movement_vector.get(1)-drive_power,MAX_ACCELERATION/refresh_rate*-1.0,MAX_ACCELERATION/refresh_rate);
+        steering_power=turn_rate;
 
-        double left_power=
-                turn_rate*TURN_SCALE/2.0
-                +((double)movement_vector.getData()[1])*DRIVE_SCALE/2.0;
-        double right_power=
-                turn_rate*TURN_SCALE/-2.0
-                +((double)movement_vector.getData()[1])*DRIVE_SCALE/2.0;
-        left_power_motor+=(Clamp(left_power,-1.0,1.0)-left_power_motor)/MOTOR_SMOOTHING;
-        right_power_motor+=(Clamp(right_power,-1.0,1.0)-right_power_motor)/MOTOR_SMOOTHING;
+        double total_strength=abs(drive_power)+abs(steering_power);
+        double steering_strength=steering_power*abs(steering_power)/total_strength;
+        double drive_strength=drive_power*abs(drive_power)/total_strength;
+
+        double left_power_motor=drive_strength+steering_strength;
+        double right_power_motor=drive_strength-steering_strength;
         left_motor.setPower(left_power_motor);
         right_motor.setPower(right_power_motor);
+
         telemetry.addData("LeftMotor",left_power_motor);
         telemetry.addData("RightMotor",right_power_motor);
+
+        refresh_rate=Clamp(1.0/last_cycle.seconds(),50.0,100.0);
+        telemetry.addData("Refresh Rate",round(refresh_rate));
+        last_cycle.reset();
         telemetry.update();
     }
     // Get heading from the IMU (Control Hub)
