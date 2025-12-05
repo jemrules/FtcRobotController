@@ -69,7 +69,8 @@ public class Movement {
         // MOTOR DIRECTION SETTINGS
         left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
         right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-
+        left_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.Brake)
+        right_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.Brake)
         refresh_rate=60.0;
         // Timer to detect refresh rate
         last_cycle=new ElapsedTime();
@@ -113,11 +114,9 @@ public class Movement {
      * @param target_turn_rate Turing speed of the robot [rad/s]
      */
     public void setBrakeOnOff(Boolean state){
-        int leftMotorPos = left_motor.getCurrentPosition();
-        int rightMotorPos = right_motor.getCurrentPosition();
         if(state) {
-            left_motor.setTargetPosition(leftMotorPos);
-            right_motor.setTargetPosition(rightMotorPos);
+            left_motor.setPower(0);
+            right_motor.setPower(0);
         }
     }
     public void setTurnSpeed(double target_turn_rate) {

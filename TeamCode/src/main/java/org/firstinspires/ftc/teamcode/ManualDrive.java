@@ -41,8 +41,7 @@ public class ManualDrive extends LinearOpMode {
             launcher_throttle = Clamp(right_stick_y*0.15,0.0,0.15);
 
             telemetry.addData("speed",launcher_throttle);
-            if(launcher_throttle != 0.0)
-                launcher.setRPS(launcher_throttle*-120.0);
+            launcher.setRPS(launcher_throttle*-120.0);
             launcher.setFeederOnOff(gamepad1.left_bumper);
             robotMovement.setBrakeOnOff(gamepad1.a);
 
