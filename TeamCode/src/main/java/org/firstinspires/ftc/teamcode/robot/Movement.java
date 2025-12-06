@@ -33,7 +33,7 @@ public class Movement {
     public static double WHEEL_DIAMETER=92.0/1000.0; // The diameter of the wheels [mm] to [m]
     public static double WHEEL_SPACING=38.0/100.0; // The distance between the left and right wheels [cm] to [m]
 
-    public double MAX_ACCELERATION= 1.0; // [%/s^2]
+    public double MAX_ACCELERATION= 3/2; // [%/s^2]
 
     public VectorF position;
     public double turn_rate;
