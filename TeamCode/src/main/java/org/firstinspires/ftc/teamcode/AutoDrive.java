@@ -35,11 +35,11 @@ public class AutoDrive extends LinearOpMode {
         ElapsedTime drive_time = new ElapsedTime();
         drive_time.reset();
         while (opModeIsActive()) {
-            if (drive_time.seconds()<1.5) {
+            if (drive_time.seconds()<1.0) {
                 robotMovement.movement_vector.put(1,-0.5f);
             } else {
                 robotMovement.movement_vector.put(1,0.0f);
-                assert drive_time.seconds()<1.5 && robotMovement.movement_vector.get(1)==0.0f : "Robot Vector not resetting to 0.0f";
+                //assert drive_time.seconds()<1.5 && robotMovement.movement_vector.get(1)==0.0f : "Robot Vector not resetting to 0.0f";
             }
             robotMovement.UpdateRobot(telemetry);
         }
