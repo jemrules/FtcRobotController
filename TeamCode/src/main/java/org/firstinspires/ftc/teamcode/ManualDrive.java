@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.util.Misc.Clamp;
 
+import static java.lang.Math.pow;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -46,7 +48,7 @@ public class ManualDrive extends LinearOpMode {
             launcher.setFeederOnOff(gamepad1.left_bumper);
 
             robotMovement.setTurnSpeed(gamepad1.left_stick_x); // 5 degrees/second
-            robotMovement.movement_vector.put(1, -gamepad1.left_stick_y);
+            robotMovement.movement_vector.put(1, (float) pow(-gamepad1.left_stick_y,0.6));
 
             // Update Robot
             launcher.UpdateRobot();
