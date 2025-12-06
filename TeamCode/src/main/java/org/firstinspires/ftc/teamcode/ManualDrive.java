@@ -40,7 +40,7 @@ public class ManualDrive extends LinearOpMode {
             telemetry.addData("stick",right_stick_y);
             launcher_throttle = Clamp(launcher_throttle+right_stick_y*0.14/1.5,0.0,0.14);
             telemetry.addData("Launcher Throttle",launcher_throttle);
-            telemetry.addData("Speed Distance",launcher.flywheel_motor.getVelocity());
+            telemetry.addData("Speed Distance",-1000.0-launcher.flywheel_motor.getVelocity());
 
             telemetry.addData("speed",launcher_throttle);
             launcher.setRPS(launcher_throttle*-120.0);
