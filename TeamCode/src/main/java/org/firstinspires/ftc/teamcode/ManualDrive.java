@@ -18,6 +18,7 @@ public class ManualDrive extends LinearOpMode {
     public Movement robotMovement;
     public Sensors robotSensors;
     public double launcher_throttle=0.0;
+    public boolean rumble=false;
     @Override
     public void runOpMode() {
         launcher=new Launcher(hardwareMap);
@@ -44,7 +45,9 @@ public class ManualDrive extends LinearOpMode {
             launcher.setRPS(launcher_throttle*-120.0);
             launcher.setFeederOnOff(gamepad1.left_bumper);
             telemetry.addData("Launcher Throttle",launcher_throttle);
-            telemetry.addData("Speed Distance",-1000.0-launcher.flywheel_motor.getVelocity());
+            telemetry.addData("Speed Distance",1600.0-launcher.flywheel_motor.getVelocity());
+
+
             robotMovement.setBrakeOnOff(gamepad1.a);
             // Jog Control
             robotMovement.jog_position(gamepad1.dpad_left, gamepad1.dpad_right,gamepad1.dpad_up, gamepad1.dpad_down)
