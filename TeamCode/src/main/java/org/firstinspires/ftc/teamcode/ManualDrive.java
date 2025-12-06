@@ -38,7 +38,9 @@ public class ManualDrive extends LinearOpMode {
         while (opModeIsActive()) {
             double right_stick_y=gamepad1.right_stick_y*MOVEMENT_STICK_SENSITIVITY;
             telemetry.addData("stick",right_stick_y);
-            launcher_throttle = Clamp(right_stick_y*0.15,0.0,0.15);
+            launcher_throttle = Clamp(launcher_throttle+right_stick_y*0.14/1.5,0.0,0.14);
+            telemetry.addData("Launcher Throttle",launcher_throttle);
+            telemetry.addData("Speed Distance",launcher.flywheel_motor.getVelocity());
 
             telemetry.addData("speed",launcher_throttle);
             launcher.setRPS(launcher_throttle*-120.0);
