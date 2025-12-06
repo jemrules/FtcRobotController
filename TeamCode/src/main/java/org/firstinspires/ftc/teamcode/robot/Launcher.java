@@ -62,6 +62,8 @@ public class Launcher {
     public double getPower() {
         return flywheel_rps / 120.0;
     }
+    // returns launcher speed in deg/sec
+    public double getVelocity(){return flywheel_motor.getVelocity(AngleUnit.DEGREES);}
     public void setFeederOnOff(boolean state) {
         feeder=state;
     }
