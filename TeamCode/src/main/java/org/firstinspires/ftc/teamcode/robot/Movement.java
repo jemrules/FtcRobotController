@@ -113,12 +113,6 @@ public class Movement {
     /**
      * @param target_turn_rate Turing speed of the robot [rad/s]
      */
-    private boolean withinRange(double input, double target, double threshHold) {
-         if(abs(input-target)<= threshHold) {
-            return true;
-         }
-         return false;
-    }
     public void setBrakeOnOff(Boolean state) {
         int currentPosition = left_motor.getCurrentPosition();
         if (state) {
@@ -134,6 +128,25 @@ public class Movement {
         double current_heading=getHeading();
         double turn_diff=subtractAngles(current_heading,target_heading);
         setTurnSpeed(turn_diff*INTERVAL);
+    }
+
+    public void jog_position(boolean gamepadLeft, boolean gamepadRight, boolean gamepadForward, boolean gamepadBack){
+        if(gamepadForward) {
+            left_motor.setPower(0.6);
+            right_motor.setPower(0.6);
+        }
+        if(gamepadLeft){
+            right_motor.setPower(0.6);
+            left_motor.setPower(-0.6);
+        }
+        if(gamepadRight) {
+            left_motor.setPower(0.6);
+            right_motor.setPower(-0.6);
+        }
+        if(gamepadBack) {
+            left_motor.setPower(-0.6);
+            right_motor.setPower(-0.6);
+        }
     }
     /**
      * @param target_position Target global 2D position [m]

@@ -36,16 +36,38 @@ public class ManualDrive extends LinearOpMode {
         launcher.RobotStart();
 
         while (opModeIsActive()) {
+            // Right stick is launcher
             double right_stick_y=gamepad1.right_stick_y*MOVEMENT_STICK_SENSITIVITY;
             telemetry.addData("stick",right_stick_y);
             launcher_throttle = Clamp(launcher_throttle+right_stick_y*0.14/1.5,0.0,0.14);
-            telemetry.addData("Launcher Throttle",launcher_throttle);
-            telemetry.addData("Speed Distance",-1000.0-launcher.flywheel_motor.getVelocity());
-
             telemetry.addData("speed",launcher_throttle);
             launcher.setRPS(launcher_throttle*-120.0);
             launcher.setFeederOnOff(gamepad1.left_bumper);
+            telemetry.addData("Launcher Throttle",launcher_throttle);
+            telemetry.addData("Speed Distance",-1000.0-launcher.flywheel_motor.getVelocity());
             robotMovement.setBrakeOnOff(gamepad1.a);
+            // Jog Control
+            robotMovement.jog_position(gamepad1.dpad_left, gamepad1.dpad_right,gamepad1.dpad_up, gamepad1.dpad_down)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            ;
 
             robotMovement.setTurnSpeed(gamepad1.left_stick_x); // 5 degrees/second
             robotMovement.movement_vector.put(1, -gamepad1.left_stick_y);
