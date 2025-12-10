@@ -34,45 +34,44 @@ public class ManualDrive extends LinearOpMode {
             telemetry.addData("Status", "Ready to Start");
             telemetry.update();
         }
+        telemetry.addData("Build Version: ", "1.0.0.0");
         // Send to the robot movement controller Init has ended
         robotMovement.RobotStart();
         launcher.RobotStart();
 
+        boolean isSpunUp = false;
+        boolean previousCanFire = false;
+        boolean previousButtonX = false;
         while (opModeIsActive()) {
-            // Right stick is launcher
-            double right_stick_y=gamepad1.right_stick_y*MOVEMENT_STICK_SENSITIVITY;
-            telemetry.addData("stick",right_stick_y);
-            launcher_throttle = Clamp(launcher_throttle+right_stick_y*0.14/1.5,0.0,0.14);
-            telemetry.addData("speed",launcher_throttle);
-            launcher.setRPS(launcher_throttle*-120.0);
+            double right_stick_y = gamepad1.right_stick_y * MOVEMENT_STICK_SENSITIVITY;
+            telemetry.addData("Launcher stick", right_stick_y);
+            if(gamepad1.x && !isSpunUp){
+                telemetry.addData("Launcher Mode:", "Spinning Up!");
+                //launcher_throttle = Clamp(launcher_throttle + 1.5 * 0.14 / 1.5, 0.0, 0.14);   
+
+                launcher.setRPS(-18);//launcher_throttle * -120.0);
+                isSpunUp = true;
+            }
+            else if(isSpunUp && gamepad1.x){
+                telemetry.addData("Launcher Mode:", "Spinning Down!");
+                //launcher_throttle = Clamp(launcher_throttle + -1.5 * 0.14 / 1.5, 0.0, 0.14);
+                launcher.setRPS(0);//launcher_throttle * -120.0);
+                isSpunUp = false;
+            }
             launcher.setFeederOnOff(gamepad1.left_bumper);
-            telemetry.addData("Launcher Throttle",launcher_throttle);
-            telemetry.addData("Speed Distance",abs(-launcher.getVelocity()-1000.0)<30.0);
-
-
+            telemetry.addData("Launcher Throttle", launcher_throttle);
+            // this should be a bool
+            boolean canFire = (abs(-launcher.getVelocity() - 1000.0) < 30.0);
+            telemetry.addData("Speed Distance (can fire)", canFire);
+            telemetry.addData("Launcher Speed: ", (abs(launcher.getVelocity())));
+            // if we change to true rumble
+            if(previousCanFire == false && canFire) {
+                gamepad1.rumble(0.3, 0.3, 250);
+            }
+            // if a is pressed hard brake robot
             robotMovement.setBrakeOnOff(gamepad1.a);
             // Jog Control
-            robotMovement.jog_position(gamepad1.dpad_left, gamepad1.dpad_right,gamepad1.dpad_up, gamepad1.dpad_down)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            ;
+            robotMovement.jog_position(gamepad1.dpad_left, gamepad1.dpad_right, gamepad1.dpad_up, gamepad1.dpad_down);
 
             robotMovement.setTurnSpeed(gamepad1.left_stick_x); // 5 degrees/second
             robotMovement.movement_vector.put(1, -gamepad1.left_stick_y);
@@ -80,6 +79,8 @@ public class ManualDrive extends LinearOpMode {
             // Update Robot
             launcher.UpdateRobot();
             robotMovement.UpdateRobot(telemetry);
+            previousCanFire = canFire;
+        // END OF MAINLOOP
         }
     }
 }
