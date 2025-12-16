@@ -52,27 +52,7 @@ public class ManualDrive extends LinearOpMode {
 
             robotMovement.setBrakeOnOff(gamepad1.a);
             // Jog Control
-            robotMovement.jog_position(gamepad1.dpad_left, gamepad1.dpad_right,gamepad1.dpad_up, gamepad1.dpad_down)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            ;
+            robotMovement.jog_position(gamepad1.dpad_left, gamepad1.dpad_right,gamepad1.dpad_up, gamepad1.dpad_down);
 
             robotMovement.setTurnSpeed(gamepad1.left_stick_x); // 5 degrees/second
             robotMovement.movement_vector.put(1, -gamepad1.left_stick_y);
