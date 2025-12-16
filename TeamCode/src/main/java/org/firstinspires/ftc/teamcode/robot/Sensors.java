@@ -4,15 +4,23 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Sensors {
+    public static final Map<Integer,VectorF> TAG_POSITIONS =new HashMap<>();
+    static {
+//        TAG_POSITIONS.put(20,)
+    }
     public AprilTagProcessor aprilTag;
 
+    public VectorF position;
     public VisionPortal visionPortal;
     public ArrayList<AprilTagDetection> currentDetections;
     public Sensors(HardwareMap hardwareMap) {
@@ -20,6 +28,12 @@ public class Sensors {
         // Using Webcam
         visionPortal = VisionPortal.easyCreateWithDefaults(
                 hardwareMap.get(WebcamName.class,"Webcam 1"),aprilTag);
+
+        position = new VectorF(0f,0f,0f);
+    }
+    public VectorF updatePosition() {
+
+        return position;
     }
     public void detectTags() {
         currentDetections = aprilTag.getDetections();
