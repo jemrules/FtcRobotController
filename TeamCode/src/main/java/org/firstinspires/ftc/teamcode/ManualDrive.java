@@ -38,25 +38,28 @@ public class ManualDrive extends LinearOpMode {
         // Send to the robot movement controller Init has ended
         robotMovement.RobotStart();
         launcher.RobotStart();
-
+        telemetry.speak("test");
         boolean isSpunUp = false;
         boolean previousCanFire = false;
+        int timeSinceLastSpin = 100;
         boolean previousButtonX = false;
         while (opModeIsActive()) {
             double right_stick_y = gamepad1.right_stick_y * MOVEMENT_STICK_SENSITIVITY;
             telemetry.addData("Launcher stick", right_stick_y);
-            if(gamepad1.x && !isSpunUp){
+            if(gamepad1.x && !isSpunUp && timeSinceLastSpin >= 100){
                 telemetry.addData("Launcher Mode:", "Spinning Up!");
                 //launcher_throttle = Clamp(launcher_throttle + 1.5 * 0.14 / 1.5, 0.0, 0.14);   
 
                 launcher.setRPS(-18);//launcher_throttle * -120.0);
                 isSpunUp = true;
+                timeSinceLastSpin = 0;
             }
-            else if(isSpunUp && gamepad1.x){
+            else if(isSpunUp && gamepad1.x && timeSinceLastSpin >= 100){
                 telemetry.addData("Launcher Mode:", "Spinning Down!");
                 //launcher_throttle = Clamp(launcher_throttle + -1.5 * 0.14 / 1.5, 0.0, 0.14);
                 launcher.setRPS(0);//launcher_throttle * -120.0);
                 isSpunUp = false;
+                timeSinceLastSpin = 0;
             }
             launcher.setFeederOnOff(gamepad1.left_bumper);
             telemetry.addData("Launcher Throttle", launcher_throttle);
@@ -80,6 +83,7 @@ public class ManualDrive extends LinearOpMode {
             launcher.UpdateRobot();
             robotMovement.UpdateRobot(telemetry);
             previousCanFire = canFire;
+            timeSinceLastSpin++;
         // END OF MAINLOOP
         }
     }

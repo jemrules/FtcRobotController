@@ -21,9 +21,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Launcher {
     // PID Settings
-    public static final double PID_P=10.0;
-    public static final double PID_I=3.0;
-    public static final double PID_D=4.0;
+    public static final double PID_P=3.0;
+    public static final double PID_I=2.0;
+    public static final double PID_D=1.0;
 
     Movement movement;
     public double flywheel_rps=0.0;
