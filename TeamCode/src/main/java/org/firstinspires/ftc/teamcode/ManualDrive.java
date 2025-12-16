@@ -27,8 +27,8 @@ public class ManualDrive extends LinearOpMode {
         robotMovement = new Movement(
                 new VectorF(0.0f, 0.0f, 0.0f), // Set default position to 0,0,0
                 hardwareMap); // Pass the ability to interact with hardware
-        robotSensors = new Sensors(
-                hardwareMap);
+//        robotSensors = new Sensors(
+//                hardwareMap);
         // Wait until the play button is pressed
         while (opModeInInit()) {
             telemetry.addData("Status", "Ready to Start");

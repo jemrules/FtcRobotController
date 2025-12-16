@@ -55,7 +55,7 @@ public class Movement {
 
         // CONTROL HUB ORIENTATION SETTINGS
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
-        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection,usbDirection);
 
         // Set the IMU (Gyro) Variable
@@ -68,7 +68,7 @@ public class Movement {
 
         // MOTOR DIRECTION SETTINGS
         left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
-        right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
         refresh_rate=60.0;
         // Timer to detect refresh rate
         last_cycle=new ElapsedTime();
@@ -106,9 +106,12 @@ public class Movement {
         telemetry.update();
     }
     // Get heading from the IMU (Control Hub)
-    public double getHeading() {
+    public double getHeading(AngleUnit unit) {
         YawPitchRollAngles YPRAimu = imu.getRobotYawPitchRollAngles();
-        return YPRAimu.getYaw(AngleUnit.RADIANS);
+        return YPRAimu.getYaw(unit);
+    }
+    public double getHeading() {
+        return getHeading(AngleUnit.RADIANS);
     }
     /**
      * @param target_turn_rate Turing speed of the robot [rad/s]
@@ -124,7 +127,7 @@ public class Movement {
         turn_rate=target_turn_rate;
     }
     public void holdHeading(double target_heading) {
-        double INTERVAL=0.001;
+        double INTERVAL=0.1;
         double current_heading=getHeading();
         double turn_diff=subtractAngles(current_heading,target_heading);
         setTurnSpeed(turn_diff*INTERVAL);
