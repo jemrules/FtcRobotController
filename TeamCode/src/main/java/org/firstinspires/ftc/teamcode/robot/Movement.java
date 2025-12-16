@@ -54,8 +54,8 @@ public class Movement {
         movement_vector=new VectorF(0.0f,0.0f);
 
         // CONTROL HUB ORIENTATION SETTINGS
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
-        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
+        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.UP;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection,usbDirection);
 
         // Set the IMU (Gyro) Variable
@@ -68,7 +68,7 @@ public class Movement {
 
         // MOTOR DIRECTION SETTINGS
         left_motor.setDirection(DcMotorSimple.Direction.FORWARD);
-        right_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        right_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         refresh_rate=60.0;
         // Timer to detect refresh rate
         last_cycle=new ElapsedTime();
