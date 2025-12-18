@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.robot;
 
+import org.firstinspires.ftc.teamcode.util.Configuration;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -21,10 +22,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Launcher {
     // PID Settings
-    public static final double PID_P=3.0;
-    public static final double PID_I=2;
-    public static final double PID_D=1.5;
-
     Movement movement;
     public double flywheel_rps=0.0;
     public boolean feeder=false;
@@ -36,7 +33,6 @@ public class Launcher {
 
         // map Motors
         flywheel_motor=(DcMotorEx)hardwareMap.get(DcMotor.class,"flywheel_motor");
-
         feeder_motor=hardwareMap.get(DcMotor.class,"feeder_motor");
         feeder_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         agitator_servo=hardwareMap.get(Servo.class,"agitator_servo");
@@ -55,6 +51,7 @@ public class Launcher {
         } else {
             feeder_motor.setPower(0);
         }
+        flywheel_motor.setVelocityPIDFCoefficients(Configuration.LAUNCHER_P, Configuration.LAUNCHER_I, Configuration.LAUNCHER_D, Configuration.LAUNCHER_F);
     }
     public void setRPS(double rps) {
         flywheel_rps=rps;
@@ -68,8 +65,8 @@ public class Launcher {
         feeder=state;
     }
     public void debugData(Telemetry telemetry) {
-        PIDFCoefficients pidCoefficients = flywheel_motor.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
-        telemetry.addData("PID Settings", String.format("P:%f I:%f D:%f F:%f", pidCoefficients.p,pidCoefficients.i,pidCoefficients.d,pidCoefficients.f));
-        telemetry.update();
+        //PIDFCoefficients pidCoefficients = flywheel_motor.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
+        //telemetry.addData("PID Settings", String.format("P:%f I:%f D:%f F:%f", pidCoefficients.p,pidCoefficients.i,pidCoefficients.d,pidCoefficients.f));
+        //telemetry.update();
     }
 }

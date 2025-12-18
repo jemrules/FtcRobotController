@@ -1,5 +1,10 @@
 package org.firstinspires.ftc.teamcode;
+// FTC SDK telemetry
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+// FTC Dashboard
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;  
 import static org.firstinspires.ftc.teamcode.util.Misc.Clamp;
 
 import static java.lang.Math.abs;
@@ -7,6 +12,7 @@ import static java.lang.Math.abs;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.util.Configuration;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.teamcode.robot.Launcher;
 import org.firstinspires.ftc.teamcode.robot.Movement;
@@ -16,7 +22,6 @@ import org.firstinspires.ftc.teamcode.robot.Sensors;
 public class ManualDrive extends LinearOpMode {
     //static double LAUNCHER_STICK_SENSITIVITY =8.0;
     // must be negative. 
-    static double LAUNCHER_SPEED = -14.9;
     static double MOVEMENT_STICK_SENSITIVITY = -1.f;
     public Launcher launcher;
     public Movement robotMovement;
@@ -31,6 +36,11 @@ public class ManualDrive extends LinearOpMode {
                 hardwareMap); // Pass the ability to interact with hardware
         robotSensors = new Sensors(
                 hardwareMap);
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+            Telemetry telemetry = new MultipleTelemetry(
+                    this.telemetry,
+                    dashboard.getTelemetry()
+        );
         // Wait until the play button is pressed
         while (opModeInInit()) {
             telemetry.addData("Status", "Ready to Start");
@@ -40,7 +50,7 @@ public class ManualDrive extends LinearOpMode {
         // Send to the robot movement controller Init has ended
         robotMovement.RobotStart();
         launcher.RobotStart();
-        telemetry.speak("test");
+        //telemetry.speak("test");
         boolean isSpunUp = false;
         boolean previousCanFire = false;
         int timeSinceLastSpin = 100;
@@ -52,7 +62,7 @@ public class ManualDrive extends LinearOpMode {
                 telemetry.addData("Launcher Mode:", "Spinning Up!");
                 //launcher_throttle = Clamp(launcher_throttle + 1.5 * 0.14 / 1.5, 0.0, 0.14);   
 
-                launcher.setRPS(LAUNCHER_SPEED);//launcher_throttle * -120.0);
+                launcher.setRPS(Configuration.LAUNCHER_SPEED);//launcher_throttle * -120.0);
                 isSpunUp = true;
                 timeSinceLastSpin = 0;
             }

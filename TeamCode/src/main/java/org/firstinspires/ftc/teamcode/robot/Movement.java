@@ -2,7 +2,8 @@ package org.firstinspires.ftc.teamcode.robot;
 
 import static org.firstinspires.ftc.teamcode.util.Misc.Clamp;
 import static org.firstinspires.ftc.teamcode.util.TrigMath.subtractAngles;
-
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import org.firstinspires.ftc.teamcode.util.Configuration;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -25,15 +26,6 @@ import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 
 public class Movement {
-    // SETTINGS
-    public static double TURN_SCALE=1;
-    public static double DRIVE_SCALE=1;
-    public static double MOTOR_RPM=6000.0; // The Motors RPM
-    public static double GEAR_RATIO=1.0/20.0; // The gear ratio coming out of the motor
-    public static double WHEEL_DIAMETER=92.0/1000.0; // The diameter of the wheels [mm] to [m]
-    public static double WHEEL_SPACING=38.0/100.0; // The distance between the left and right wheels [cm] to [m]
-
-    public double MAX_ACCELERATION= 1.0; // [%/s^2]
 
     public VectorF position;
     public double turn_rate;
@@ -83,7 +75,7 @@ public class Movement {
     public void UpdateRobot(Telemetry telemetry) {
         // TODO: Add position tracker
         // Limits Drive power to MAX_ACCELERATION
-        drive_power=drive_power+Clamp(movement_vector.get(1)-drive_power,MAX_ACCELERATION/refresh_rate*-1.0,MAX_ACCELERATION/refresh_rate);
+        drive_power=drive_power+Clamp(movement_vector.get(1)-drive_power,Configuration.MAX_ACCELERATION/refresh_rate*-1.0,Configuration.MAX_ACCELERATION/refresh_rate);
         steering_power=turn_rate;
 
         double total_strength=abs(drive_power)+abs(steering_power);

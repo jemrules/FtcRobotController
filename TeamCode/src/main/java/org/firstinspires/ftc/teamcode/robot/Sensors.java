@@ -18,8 +18,8 @@ public class Sensors {
     public Sensors(HardwareMap hardwareMap) {
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
         // Using Webcam
-        visionPortal = VisionPortal.easyCreateWithDefaults(
-                hardwareMap.get(WebcamName.class,"Webcam 1"),aprilTag);
+        //visionPortal = VisionPortal.easyCreateWithDefaults(
+        //        hardwareMap.get(WebcamName.class,"Webcam 1"),aprilTag);
     }
     public void detectTags() {
         currentDetections = aprilTag.getDetections();
