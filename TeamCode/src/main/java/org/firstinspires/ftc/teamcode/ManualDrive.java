@@ -14,7 +14,9 @@ import org.firstinspires.ftc.teamcode.robot.Sensors;
 
 @TeleOp
 public class ManualDrive extends LinearOpMode {
-    static double LAUNCHER_STICK_SENSITIVITY =8.0;
+    //static double LAUNCHER_STICK_SENSITIVITY =8.0;
+    // must be negative. 
+    static double LAUNCHER_SPEED = -14.9;
     static double MOVEMENT_STICK_SENSITIVITY = -1.f;
     public Launcher launcher;
     public Movement robotMovement;
@@ -50,7 +52,7 @@ public class ManualDrive extends LinearOpMode {
                 telemetry.addData("Launcher Mode:", "Spinning Up!");
                 //launcher_throttle = Clamp(launcher_throttle + 1.5 * 0.14 / 1.5, 0.0, 0.14);   
 
-                launcher.setRPS(-18);//launcher_throttle * -120.0);
+                launcher.setRPS(LAUNCHER_SPEED);//launcher_throttle * -120.0);
                 isSpunUp = true;
                 timeSinceLastSpin = 0;
             }
