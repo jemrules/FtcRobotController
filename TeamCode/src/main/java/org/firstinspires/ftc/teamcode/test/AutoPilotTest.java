@@ -32,6 +32,7 @@ public class AutoPilotTest extends LinearOpMode {
         while (opModeIsActive()) {
             telemetry.addData("Heading",robotMovement.getHeading());
             robotMovement.holdHeading(PI/180.0*90.0);
+//            robotMovement.setTurnSpeed(1);
             robotMovement.UpdateRobot(telemetry);
             telemetry.update();
         }

@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.robot;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -16,7 +18,8 @@ import java.util.Map;
 public class Sensors {
     public static final Map<Integer,VectorF> TAG_POSITIONS =new HashMap<>();
     static {
-//        TAG_POSITIONS.put(20,)
+        TAG_POSITIONS.put(20,new VectorF(0.3048f,1.5240f,0.6731f));
+        TAG_POSITIONS.put(24,new VectorF(1.5240f,1.5240f,0.6731f));
     }
     public AprilTagProcessor aprilTag;
 
@@ -31,8 +34,17 @@ public class Sensors {
 
         position = new VectorF(0f,0f,0f);
     }
-    public VectorF updatePosition() {
-
+    public VectorF updatePosition(IMU imu) {
+        for (AprilTagDetection detection : currentDetections) {
+            if (TAG_POSITIONS.containsKey(detection.id)) {
+                Quaternion local_robot_orientation=imu.getRobotOrientationAsQuaternion();
+                VectorF local_tag_position=new VectorF(
+                        (float)detection.ftcPose.x,
+                        (float)detection.ftcPose.y,
+                        (float)detection.ftcPose.z);
+                position=local_robot_orientation.applyToVector(local_tag_position);
+            }
+        }
         return position;
     }
     public void detectTags() {

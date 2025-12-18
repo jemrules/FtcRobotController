@@ -127,7 +127,7 @@ public class Movement {
         turn_rate=target_turn_rate;
     }
     public void holdHeading(double target_heading) {
-        double INTERVAL=0.1;
+        double INTERVAL=0.2;
         double current_heading=getHeading();
         double turn_diff=subtractAngles(current_heading,target_heading);
         setTurnSpeed(turn_diff*INTERVAL);
