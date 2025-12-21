@@ -3,10 +3,12 @@ package org.firstinspires.ftc.teamcode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 // FTC Dashboard
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;  
-import static org.firstinspires.ftc.teamcode.util.Misc.Clamp;
 
+// COMMENT ME!
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+// DONT COMMENT BELOW ME!  
+import static org.firstinspires.ftc.teamcode.util.Misc.Clamp;
 import static java.lang.Math.abs;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -22,7 +24,6 @@ import org.firstinspires.ftc.teamcode.robot.Sensors;
 public class ManualDrive extends LinearOpMode {
     //static double LAUNCHER_STICK_SENSITIVITY =8.0;
     // must be negative. 
-    static double MOVEMENT_STICK_SENSITIVITY = -1.f;
     public Launcher launcher;
     public Movement robotMovement;
     public Sensors robotSensors;
@@ -36,11 +37,14 @@ public class ManualDrive extends LinearOpMode {
                 hardwareMap); // Pass the ability to interact with hardware
         robotSensors = new Sensors(
                 hardwareMap);
+        // COMMENT ME!
         FtcDashboard dashboard = FtcDashboard.getInstance();
-            Telemetry telemetry = new MultipleTelemetry(
+        Telemetry telemetry = new MultipleTelemetry(
                     this.telemetry,
                     dashboard.getTelemetry()
         );
+        // DONT COMMENT BELOW ME!
+
         // Wait until the play button is pressed
         while (opModeInInit()) {
             telemetry.addData("Status", "Ready to Start");
