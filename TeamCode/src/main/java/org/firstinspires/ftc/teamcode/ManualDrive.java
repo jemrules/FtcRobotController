@@ -60,8 +60,6 @@ public class ManualDrive extends LinearOpMode {
         int timeSinceLastSpin = 100;
         boolean previousButtonX = false;
         while (opModeIsActive()) {
-            double right_stick_y = gamepad1.right_stick_y * MOVEMENT_STICK_SENSITIVITY;
-            telemetry.addData("Launcher stick", right_stick_y);
             if(gamepad1.x && !isSpunUp && timeSinceLastSpin >= 100){
                 telemetry.addData("Launcher Mode:", "Spinning Up!");
                 //launcher_throttle = Clamp(launcher_throttle + 1.5 * 0.14 / 1.5, 0.0, 0.14);   
