@@ -11,14 +11,16 @@ import com.acmerobotics.dashboard.config.Config;
 // COMMENT ME!
 @Config
 public class Configuration{
-	public static double LAUNCHER_P = 3.0;
-	public static double LAUNCHER_I = 2.0;
-	public static double LAUNCHER_D = 1.0;
+    // with these values launcher is really consistent
+	public static double LAUNCHER_P = 50.f;
+	public static double LAUNCHER_I = 4.f;
+	public static double LAUNCHER_D = 20.f;
 	public static double LAUNCHER_F = 1.0;
-    public static double LAUNCHER_SPEED = -14.9;
+    public static double LAUNCHER_SPEED = -13;
 	// movement settings
     // SETTINGS
-
+    // seconds to move back after firing period of auto finishes 
+    public static double MOVE_BACK_AMOUNT = 3.0; 
     public static double TURN_SCALE=1;
     public static double DRIVE_SCALE=1;
     public static double MOTOR_RPM=6000.0; // The Motors RPM

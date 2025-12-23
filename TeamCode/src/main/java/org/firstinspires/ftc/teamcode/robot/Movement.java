@@ -89,6 +89,7 @@ public class Movement {
 
         left_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         right_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        telemetry.addData("Forward Speed",movement_vector.get(1));
         telemetry.addData("LeftMotor",left_power_motor);
         telemetry.addData("RightMotor",right_power_motor);
 

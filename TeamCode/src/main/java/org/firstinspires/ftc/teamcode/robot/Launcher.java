@@ -36,6 +36,8 @@ public class Launcher {
         feeder_motor=hardwareMap.get(DcMotor.class,"feeder_motor");
         feeder_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         agitator_servo=hardwareMap.get(Servo.class,"agitator_servo");
+        flywheel_motor.setVelocityPIDFCoefficients(Configuration.LAUNCHER_P, Configuration.LAUNCHER_I, Configuration.LAUNCHER_D, Configuration.LAUNCHER_F);
+
     }
     public Launcher(HardwareMap hardwareMap,Movement movement_inst) {
         this(hardwareMap);
@@ -51,7 +53,6 @@ public class Launcher {
         } else {
             feeder_motor.setPower(0);
         }
-        flywheel_motor.setVelocityPIDFCoefficients(Configuration.LAUNCHER_P, Configuration.LAUNCHER_I, Configuration.LAUNCHER_D, Configuration.LAUNCHER_F);
     }
     public void setRPS(double rps) {
         flywheel_rps=rps;
