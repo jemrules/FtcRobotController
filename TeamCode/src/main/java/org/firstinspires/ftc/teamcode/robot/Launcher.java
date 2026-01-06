@@ -25,8 +25,7 @@ public class Launcher {
     Movement movement;
     public double flywheel_rps=0.0;
     public boolean feeder=false;
-    public int ticksSinceLastFeeder = 0;
-    public int ticksSinceFeederSpun = 0;
+    public boolean lastFeeder = false;
     public DcMotorEx flywheel_motor; // [RPS]
     public DcMotor feeder_motor;
     public Servo agitator_servo;
@@ -48,17 +47,13 @@ public class Launcher {
     }
     public void UpdateRobot() {
         flywheel_motor.setVelocity(min(flywheel_rps,120.0)*60.0, AngleUnit.DEGREES);
-        ticksSinceLastFeeder ++;
-        if ((feeder && ticksSinceLastFeeder >= Configuration.FIRE_RATE_CAP)||(ticksSinceFeederSpun <= Configuration.SPIN_TIME && feeder)) {
-            float position = feeder_motor.getTargetPosition();
-            feeder_motor.setTargetPosition(position + 1.0);
-            ticksSinceLastFeeder = 0;
-            ticksSinceFeederSpun ++;
-        } else {
-            ticksSinceFeederSpun = 0;
-            float position = feeder_motor.getTargetPosition();
-            feeder_motor.setTargetPosition(position);
+        if(feeder){
+            feeder_motor.setPower(1);
         }
+        else{
+            feeder_motor.setPower(0);
+        }
+        lastFeeder = feeder;
     }
     public void setRPS(double rps) {
         flywheel_rps=rps;
