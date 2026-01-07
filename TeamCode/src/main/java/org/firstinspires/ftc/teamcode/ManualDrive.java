@@ -71,43 +71,54 @@ public class ManualDrive extends LinearOpMode {
         while (opModeIsActive()) {
 
             if(gamepad1.x && !isSpunUp && timeSinceLastSpin >= 100){
-                telemetry.addData("Launcher Mode:", "Spinning Up!");
-                //launcher_throttle = Clamp(launcher_throttle + 1.5 * 0.14 / 1.5, 0.0, 0.14);   
-
-                launcher.setRPS(Configuration.LAUNCHER_SPEED);//launcher_throttle * -120.0);
+                telemetry.addData("Launcher Mode:", "Spinning Up!"); 
+                launcher.setRPS(Configuration.LAUNCHER_SPEED);
                 isSpunUp = true;
                 timeSinceLastSpin = 0;
             }
             else if(isSpunUp && gamepad1.x && timeSinceLastSpin >= 100){
                 telemetry.addData("Launcher Mode:", "Spinning Down!");
-                //launcher_throttle = Clamp(launcher_throttle + -1.5 * 0.14 / 1.5, 0.0, 0.14);
+
                 launcher.setRPS(0);//launcher_throttle * -120.0);
                 isSpunUp = false;
                 timeSinceLastSpin = 0;
             }
+            // update the state of the launcher based on the gamepad bumper
             launcher.setFeederOnOff(gamepad1.left_bumper);
+            // update telemetry
             telemetry.addData("Launcher Throttle", launcher_throttle);
             // this should be a bool
+            // this is obselete because it's based on the old system of launcher speed
             boolean canFire = (abs(-launcher.getVelocity() - 1000.0) < 30.0);
+            // telemetry
             telemetry.addData("Speed Distance (can fire)", canFire);
+            // telemetry
             telemetry.addData("Launcher Speed: ", (abs(launcher.getVelocity())));
             // if we change to true rumble
-            if(previousCanFire == false && canFire) {
-                gamepad1.rumble(0.3, 0.3, 250);
-            }
+            // this rumble code never runs?
+            // commenting out so no way can distract drivers in match
+            //    if(previousCanFire == false && canFire) {
+            //        gamepad1.rumble(0.3, 0.3, 250);
+            //      }   
             // if a is pressed hard brake robot
+            // uses ZeroPowerBehavior set to break
             robotMovement.setBrakeOnOff(gamepad1.a);
             // Jog Control
             robotMovement.jog_position(gamepad1.dpad_left, gamepad1.dpad_right, gamepad1.dpad_up, gamepad1.dpad_down);
-
+            // turns robot based on stick input
             robotMovement.setTurnSpeed(gamepad1.left_stick_x); // 5 degrees/second
+            // movement vector used to have eventual compatibility w mechanum
             robotMovement.movement_vector.put(1, -gamepad1.left_stick_y);
 
             // Update Robot
             launcher.UpdateRobot();
+            // adds some extra data to telemetry
             launcher.debugData(telemetry);
+            // Update Movement
             robotMovement.UpdateRobot(telemetry);
+            // This code is deprecated
             previousCanFire = canFire;
+            // used for spin up button
             timeSinceLastSpin++;
         // END OF MAINLOOP
         }
