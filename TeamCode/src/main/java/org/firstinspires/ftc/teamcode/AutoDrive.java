@@ -47,7 +47,7 @@ public class AutoDrive extends LinearOpMode {
                 robotMovement.left_motor.setPower(-0.25);
                 robotMovement.right_motor.setPower(-0.5);
                 telemetry.update();
-            while(drive_time.seconds()<15.0+2.0);
+            while(drive_time.seconds()<15.0+Configuration.AUTO_BACK_AMOUNT);
         }
     }
 }

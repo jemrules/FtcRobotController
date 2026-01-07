@@ -21,7 +21,9 @@ public class Configuration{
     public static double SPIN_TIME = 1000000;
 	// movement settings
     // SETTINGS
-    // seconds to move back after firing period of auto finishes 
+    // seconds to move back after firing period of auto finishes
+
+    public static double AUTO_BACK_AMOUNT = 4.0f; 
     public static double AUTO_FORWARD_AMOUNT = 1.0f;
     public static double TURN_SCALE=1;
     public static double DRIVE_SCALE=1;
@@ -29,7 +31,7 @@ public class Configuration{
     public static double GEAR_RATIO=1.0/20.0; // The gear ratio coming out of the motor
     public static double WHEEL_DIAMETER=92.0/1000.0; // The diameter of the wheels [mm] to [m]
     public static double WHEEL_SPACING=38.0/100.0; // The distance between the left and right wheels [cm] to [m]
-    public static double MAX_ACCELERATION= 1.0; // [%/s^2]
+    public static double MAX_ACCELERATION= 1.7; // [%/s^2]
     // Servo Gate
     public static double GATE_OPEN_TIME = 0.75; // [Seconds]
     public static double GATE_OPEN_ANGLE = 90.0; // [Deg]
