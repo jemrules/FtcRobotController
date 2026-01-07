@@ -59,7 +59,17 @@ public class ManualDrive extends LinearOpMode {
         boolean previousCanFire = false;
         int timeSinceLastSpin = 100;
         boolean previousButtonX = false;
+// start by spinning up
+        if(opModeIsActive()){
+            telemetry.addData("Launcher Mode:", "Spinning Up!");
+                //launcher_throttle = Clamp(launcher_throttle + 1.5 * 0.14 / 1.5, 0.0, 0.14);   
+
+            launcher.setRPS(Configuration.LAUNCHER_SPEED);//launcher_throttle * -120.0);
+            isSpunUp = true;
+            timeSinceLastSpin = 0;
+        }
         while (opModeIsActive()) {
+
             if(gamepad1.x && !isSpunUp && timeSinceLastSpin >= 100){
                 telemetry.addData("Launcher Mode:", "Spinning Up!");
                 //launcher_throttle = Clamp(launcher_throttle + 1.5 * 0.14 / 1.5, 0.0, 0.14);   
