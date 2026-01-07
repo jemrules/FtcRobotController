@@ -30,5 +30,8 @@ public class Configuration{
     public static double WHEEL_DIAMETER=92.0/1000.0; // The diameter of the wheels [mm] to [m]
     public static double WHEEL_SPACING=38.0/100.0; // The distance between the left and right wheels [cm] to [m]
     public static double MAX_ACCELERATION= 1.0; // [%/s^2]
-
+    // Servo Gate
+    public static double GATE_OPEN_TIME = 0.75; // [Seconds]
+    public static double GATE_OPEN_ANGLE = 90.0; // [Deg]
+    public static double GATE_CLOSE_ANGLE = 0.0; // [Deg]
 }
