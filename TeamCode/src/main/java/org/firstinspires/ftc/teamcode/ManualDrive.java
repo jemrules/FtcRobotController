@@ -95,6 +95,7 @@ public class ManualDrive extends LinearOpMode {
 
             // Update Robot
             launcher.UpdateRobot();
+            launcher.debugData(telemetry);
             robotMovement.UpdateRobot(telemetry);
             previousCanFire = canFire;
             timeSinceLastSpin++;
