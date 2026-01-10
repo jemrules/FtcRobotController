@@ -35,8 +35,8 @@ public class AutoDriveForward extends LinearOpMode {
         ElapsedTime drive_time = new ElapsedTime();
         drive_time.reset();
         if (opModeIsActive()) {
-                robotMovement.left_motor.setPower(-0.5);
-                robotMovement.right_motor.setPower(-0.5);
+                robotMovement.left_motor.setPower(0.5);
+                robotMovement.right_motor.setPower(0.5);
                 telemetry.update();
             while(drive_time.seconds()<Configuration.AUTO_FORWARD_AMOUNT);
         }
