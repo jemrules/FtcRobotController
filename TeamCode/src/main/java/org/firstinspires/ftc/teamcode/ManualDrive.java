@@ -106,7 +106,7 @@ public class ManualDrive extends LinearOpMode {
             // Jog Control
             robotMovement.jog_position(gamepad1.dpad_left, gamepad1.dpad_right, gamepad1.dpad_up, gamepad1.dpad_down);
             // turns robot based on stick input
-            robotMovement.setTurnSpeed(gamepad1.left_stick_x); // 5 degrees/second
+            robotMovement.setTurnSpeed(gamepad1.left_stick_x*Configuration.TURN_MULTIPLIER); // 5 degrees/second
             // movement vector used to have eventual compatibility w mechanum
             robotMovement.movement_vector.put(1, -gamepad1.left_stick_y);
 

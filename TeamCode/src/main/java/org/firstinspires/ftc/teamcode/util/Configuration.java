@@ -19,6 +19,7 @@ public class Configuration{
     public static double LAUNCHER_SPEED = -13.3;
     public static double FIRE_RATE_CAP = 100;
     public static double SPIN_TIME = 1000000;
+    public static double TURN_MULTIPLIER = 0.75;
 	// movement settings
     // SETTINGS
     // seconds to move back after firing period of auto finishes
