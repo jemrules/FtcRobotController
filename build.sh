@@ -26,5 +26,4 @@ echo "build finished. Installing..."
 echo 
 echo 
 adb install -r /home/eagleworks/Desktop/2025Season/FTCRobotController/TeamCode/build/outputs/apk/debug/TeamCode-debug.apk
-echo "Fixed file path build.sh FtcRobotController -> FTCRobotController"
 echo "Done"
