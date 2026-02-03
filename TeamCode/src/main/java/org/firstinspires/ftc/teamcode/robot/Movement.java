@@ -62,11 +62,11 @@ public class Movement {
 
         // Set DC Motor variables
         motors= new DcMotorEx[]{
-                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_2"),
-                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_4"),
-                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_1"),
-                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_3"),
+                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_3"),(DcMotorEx) hardwareMap.get(DcMotor.class, "motor_1"),
+                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_4"),(DcMotorEx) hardwareMap.get(DcMotor.class, "motor_2"),
         };
+        motors[0].setDirection(DcMotorSimple.Direction.REVERSE);motors[1].setDirection(DcMotorSimple.Direction.FORWARD);
+        motors[2].setDirection(DcMotorSimple.Direction.REVERSE);motors[3].setDirection(DcMotorSimple.Direction.REVERSE);
     }
     // Set default_heading to 0.0 if default_heading isn't given
     public Movement(VectorF default_position, HardwareMap hardwareMap) {this(default_position,0.0,hardwareMap);}
@@ -76,22 +76,25 @@ public class Movement {
     public void UpdateRobot(Telemetry telemetry) {
         // TODO: Add position tracker
         Arrays.fill(motors_velocity,0.0);
+        double total_magnitude=abs(movement_vector.get(0))+abs(movement_vector.get(1))+abs(turn_rate);
         // Horizontal Drive
-        //  F/B
+        double FB_mag=abs(movement_vector.get(1))/total_magnitude;
         for (int i=0;i<motors_velocity.length; i++) {
-            motors_velocity[i]+=movement_vector.get(1)/3.0;
+            motors_velocity[i]+=movement_vector.get(1)*FB_mag;
         }
         //  L/R
+        double LR_mag=abs(movement_vector.get(0))/total_magnitude;
         for (int i=0;i<motors_velocity.length; i++) {
             motors_velocity[i]+=
-                    movement_vector.get(0)/3.0
-                            *((i>=1 & i<=2) ? -1.0 : 1.0); // Invert Diagonal Motors
+                    movement_vector.get(0)*LR_mag
+                            *((i>=1 & i<=2) ? 1.0 : -1.0); // Invert Diagonal Motors
         }
         // Turning
+        double TR_mag=abs(turn_rate)/total_magnitude;
         for (int i=0;i<motors_velocity.length; i++) {
             motors_velocity[i]+=
-                    turn_rate/3.0
-                            *(i%2==0 ? 1.0 : -1.0); // Invert Side Motors
+                    turn_rate*TR_mag
+                            *(i%2==0 ? -1.0 : 1.0); // Invert Side Motors
         }
 
         //Set motor Speed
