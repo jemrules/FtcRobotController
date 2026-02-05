@@ -103,14 +103,15 @@ public class ManualDrive extends LinearOpMode {
             robotSensors.update(telemetry);
             if(gamepad1.right_bumper){
                 double yaw = robotSensors.yawToApril;
-                if(yaw < 0){
-                    robotMovement.right_motor.setPower(0.6);
-                    robotMovement.right_motor.setPower(-0.6);
-                }else if(yaw > 0){
-                    robotMovement.right_motor.setPower(-0.6);
-                    robotMovement.right_motor.setPower(0.6);
-                }
-            }
+              if(yaw < 0){
+                  robotMovement.right_motor.setPower(0.6*);
+                  robotMovement.right_motor.setPower(-0.6);
+              }else if(yaw > 0){
+                  robotMovement.right_motor.setPower(-0.6);
+                  robotMovement.right_motor.setPower(0.6);
+              }
+                         }
+              
             else{    
                 // turns robot based on stick input
                 robotMovement.setTurnSpeed(gamepad1.left_stick_x*Configuration.TURN_MULTIPLIER); // 5 degrees/second

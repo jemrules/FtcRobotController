@@ -7,4 +7,7 @@ public class Misc {
         double Max = (double) max;
         return Math.min(Math.max(Value,Min),Max);
     }
+    public static <T extends Number> double Map(T value, T valueMin, T valueMax, T wantMin, T wantMax){
+        return wantMin+(value-valueMin)*((wantMax-wantMin)/(valueMax-valueMin));
+    }
 }
