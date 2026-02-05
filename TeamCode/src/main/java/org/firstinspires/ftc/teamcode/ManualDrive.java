@@ -94,19 +94,27 @@ public class ManualDrive extends LinearOpMode {
             telemetry.addData("Speed Distance (can fire)", canFire);
             // telemetry
             telemetry.addData("Launcher Speed: ", (abs(launcher.getVelocity())));
-            // if we change to true rumble
-            // this rumble code never runs?
-            // commenting out so no way can distract drivers in match
-            //    if(previousCanFire == false && canFire) {
-            //        gamepad1.rumble(0.3, 0.3, 250);
-            //      }   
             // if a is pressed hard brake robot
             // uses ZeroPowerBehavior set to break
+            
             robotMovement.setBrakeOnOff(gamepad1.a);
             // Jog Control
             robotMovement.jog_position(gamepad1.dpad_left, gamepad1.dpad_right, gamepad1.dpad_up, gamepad1.dpad_down);
-            // turns robot based on stick input
-            robotMovement.setTurnSpeed(gamepad1.left_stick_x*Configuration.TURN_MULTIPLIER); // 5 degrees/second
+            robotSensors.update(telemetry);
+            if(gamepad1.right_bumper){
+                double yaw = robotSensors.yawToApril;
+                if(yaw < 0){
+                    robotMovement.right_motor.setPower(0.6);
+                    robotMovement.right_motor.setPower(-0.6);
+                }else if(yaw > 0){
+                    robotMovement.right_motor.setPower(-0.6);
+                    robotMovement.right_motor.setPower(0.6);
+                }
+            }
+            else{    
+                // turns robot based on stick input
+                robotMovement.setTurnSpeed(gamepad1.left_stick_x*Configuration.TURN_MULTIPLIER); // 5 degrees/second
+            }
             // movement vector used to have eventual compatibility w mechanum
             robotMovement.movement_vector.put(1, -gamepad1.left_stick_y);
 

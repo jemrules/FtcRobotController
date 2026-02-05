@@ -12,15 +12,36 @@ import java.util.ArrayList;
 
 public class Sensors {
     public AprilTagProcessor aprilTag;
-
+    public double yawToApril = 0.0;
     public VisionPortal visionPortal;
     public ArrayList<AprilTagDetection> currentDetections;
     public Sensors(HardwareMap hardwareMap) {
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
         // Using Webcam
-        //visionPortal = VisionPortal.easyCreateWithDefaults(
-        //        hardwareMap.get(WebcamName.class,"Webcam 1"),aprilTag);
+        visionPortal = VisionPortal.easyCreateWithDefaults(
+                hardwareMap.get(WebcamName.class,"Webcam 1"),aprilTag);
+        yawToApril=0.0;
+        startStream();
     }
+    public void update(Telemetry telemetry){
+        detectTags();
+        for (AprilTagDetection detection : currentDetections)  {
+
+            // Original source data
+            //double poseX = detection.rawPose.x;
+            //double poseY = detection.rawPose.y;
+            //double poseZ = detection.rawPose.z;
+
+            yawToApril = detection.ftcPose.yaw;
+            //double poseAY = rot.secondAngle;
+            //double poseAZ = rot.thirdAngle;
+        }
+        telemetry.addData("Detections Number: ", currentDetections.size());
+        telemetry.addData("Yaw: ", yawToApril);
+        if(currentDetections.isEmpty()){
+            yawToApril = 0.0;
+        }
+    }   
     public void detectTags() {
         currentDetections = aprilTag.getDetections();
     }
