@@ -75,13 +75,13 @@ public class Movement {
     public void UpdateRobot(Telemetry telemetry) {
         // TODO: Add position tracker
         // Limits Drive power to MAX_ACCELERATION
-        drive_power=drive_power+Clamp(movement_vector.get(1)-drive_power,Configuration.MAX_ACCELERATION/refresh_rate*-1.0,Configuration.MAX_ACCELERATION/refresh_rate);
+        // does not limit speed
+		drive_power=drive_power+Clamp(movement_vector.get(1)-drive_power,Configuration.MAX_ACCELERATION/refresh_rate*-1.0,Configuration.MAX_ACCELERATION/refresh_rate);
         steering_power=turn_rate;
 
         double total_strength=abs(drive_power)+abs(steering_power);
         double steering_strength=steering_power*abs(steering_power)/total_strength;
         double drive_strength=drive_power*abs(drive_power)/total_strength;
-
         double left_power_motor=drive_strength+steering_strength;
         double right_power_motor=drive_strength-steering_strength;
         left_motor.setPower(left_power_motor);
