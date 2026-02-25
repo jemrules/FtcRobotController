@@ -69,7 +69,8 @@ public class ManualDrive extends LinearOpMode {
             timeSinceLastSpin = 0;
         }
         while (opModeIsActive()) {
-
+			// this is black magic dont touch this!!!!
+			// I dont know why but it works really reliably so we should keep it
             if(gamepad1.x && !isSpunUp && timeSinceLastSpin >= 100){
                 telemetry.addData("Launcher Mode:", "Spinning Up!"); 
                 launcher.setRPS(Configuration.LAUNCHER_SPEED);
