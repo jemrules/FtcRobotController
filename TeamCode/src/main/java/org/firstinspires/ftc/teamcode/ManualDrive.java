@@ -47,10 +47,11 @@ public class ManualDrive extends LinearOpMode {
 
         // Wait until the play button is pressed
         while (opModeInInit()) {
-            telemetry.addData("Status", "Ready to Start");
-            telemetry.update();
-        }
-        telemetry.addData("Build Version: ", "1.0.0.0");
+        //    telemetry.addData("Status", "Ready to Start");
+         //   telemetry.update();
+        ;
+		}
+        //telemetry.addData("Build Version: ", "1.0.0.0");
         // Send to the robot movement controller Init has ended
         robotMovement.RobotStart();
         launcher.RobotStart();
