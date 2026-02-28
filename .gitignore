@@ -58,6 +58,8 @@ captures/
 # Google Services (e.g. APIs or Firebase)
 # google-services.json
 
+# Remove EW computer-dependent build.sh file
+build.sh
 # Freeline
 freeline.py
 freeline/
