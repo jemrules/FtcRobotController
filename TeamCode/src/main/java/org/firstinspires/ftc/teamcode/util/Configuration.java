@@ -16,7 +16,7 @@ public class Configuration{
 	public static double LAUNCHER_I = 1.f;
 	public static double LAUNCHER_D = 100.f;
 	public static double LAUNCHER_F = 1.0;
-    public static double LAUNCHER_SPEED = -13.3;
+    public static double LAUNCHER_SPEED = -13.0;
     public static double FIRE_RATE_CAP = 100;
     public static double SPIN_TIME = 1000000;
     public static double TURN_MULTIPLIER = 0.75;
