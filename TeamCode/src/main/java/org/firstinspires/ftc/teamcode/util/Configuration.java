@@ -13,8 +13,8 @@ import com.acmerobotics.dashboard.config.Config;
 public class Configuration{
     // with these values launcher is really consistent
 	public static double LAUNCHER_P = 50.f;
-	public static double LAUNCHER_I = 4.f;
-	public static double LAUNCHER_D = 20.f;
+	public static double LAUNCHER_I = 1.f;
+	public static double LAUNCHER_D = 100.f;
 	public static double LAUNCHER_F = 1.0;
     public static double LAUNCHER_SPEED = -13.3;
     public static double FIRE_RATE_CAP = 100;

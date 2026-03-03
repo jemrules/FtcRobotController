@@ -85,6 +85,9 @@ public class ManualDrive extends LinearOpMode {
                 isSpunUp = false;
                 timeSinceLastSpin = 0;
             }
+			if(gamepad1.y){
+				launcher.ResetPID();
+			}
             // update the state of the launcher based on the gamepad bumper
             launcher.setFeederOnOff(gamepad1.left_bumper);
             // update telemetry

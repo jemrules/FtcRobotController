@@ -41,9 +41,15 @@ public class Launcher {
         this(hardwareMap);
         movement = movement_inst;
     }
-    public void RobotStart() {
+    
+	public void RobotStart() {
 
     }
+	
+	public void ResetPID() {
+		//flywheel_motor.setVelocityPIDFCoefficients(Configuration.LAUNCHER_P, Configuration.LAUNCHER_I, Configuration.LAUNCHER_D, Configuration.LAUNCHER_F);
+	}
+
     public void UpdateRobot() {
         flywheel_motor.setVelocity(min(flywheel_rps,120.0)*60.0, AngleUnit.DEGREES);
         if(feeder && !launched){
