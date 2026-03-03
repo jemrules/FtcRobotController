@@ -82,3 +82,5 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 FtcRobotController.code-workspace
+.local
+.nvim.lua
