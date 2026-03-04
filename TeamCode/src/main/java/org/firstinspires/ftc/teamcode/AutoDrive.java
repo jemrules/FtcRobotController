@@ -16,6 +16,7 @@ public class AutoDrive extends LinearOpMode {
     public Launcher launcher;
     public Movement robotMovement;
     public Sensors robotSensors;
+    public boolean turn_right = true;
     @Override
     public void runOpMode() {
         launcher=new Launcher(hardwareMap);
@@ -44,8 +45,9 @@ public class AutoDrive extends LinearOpMode {
             // wait until total time = 15
                 launcher.setFeederOnOff(false);
                 launcher.UpdateRobot();
-                robotMovement.left_motor.setPower(-0.25);
-                robotMovement.right_motor.setPower(-0.5);
+                double direction = turn_right ? 1.0 : -1.0;
+                robotMovement.left_motor.setPower(direction*0.25);
+                robotMovement.right_motor.setPower(direction*0.5);
                 telemetry.update();
             while(drive_time.seconds()<15.0+Configuration.AUTO_BACK_AMOUNT);
         }
