@@ -90,16 +90,24 @@ public class ManualDrive extends LinearOpMode {
 			}
             // update the state of the launcher based on the gamepad bumper
             launcher.setFeederOnOff(gamepad1.left_bumper);
+
             // update telemetry
             telemetry.addData("Launcher Throttle", launcher_throttle);
-            // this should be a bool
+            
+			// this should be a bool
             // this is obselete because it's based on the old system of launcher speed
-            boolean canFire = (abs(-launcher.getVelocity() - 1000.0) < 30.0);
-            // telemetry
+			boolean canFire = (abs(-launcher.getVelocity() - 1000.0) < 30.0);
+            
+			// telemetry
             telemetry.addData("Speed Distance (can fire)", canFire);
-            // telemetry
-            telemetry.addData("Launcher Speed: ", (abs(launcher.getVelocity())));
-            // if we change to true rumble
+            
+			// telemetry
+			telemetry.addData("Launcher Speed ", (abs(launcher.getVelocity())));
+			telemetry.addData("Launcher Speed (SMOOTHED) ", (abs(launcher.getLauncherSpeedSmooth())));
+
+
+
+			// if we change to true rumble
             // this rumble code never runs?
             // commenting out so no way can distract drivers in match
             //    if(previousCanFire == false && canFire) {
@@ -107,7 +115,8 @@ public class ManualDrive extends LinearOpMode {
             //      }   
             // if a is pressed hard brake robot
             // uses ZeroPowerBehavior set to break
-            robotMovement.setBrakeOnOff(gamepad1.a);
+            
+			robotMovement.setBrakeOnOff(gamepad1.a);
             // Jog Control
             robotMovement.jog_position(gamepad1.dpad_left, gamepad1.dpad_right, gamepad1.dpad_up, gamepad1.dpad_down);
             // turns robot based on stick input

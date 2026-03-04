@@ -24,7 +24,8 @@ public class Launcher {
     public boolean launched = true;
     public ElapsedTime LaunchTimer;
     public boolean gateOpen = false;
-    public DcMotorEx flywheel_motor; // [RPS]
+    public double prevAverage = 0;
+	public DcMotorEx flywheel_motor; // [RPS]
     public DcMotor feeder_motor;
     public Servo gate_servo;
     public Launcher(HardwareMap hardwareMap) {
@@ -40,7 +41,7 @@ public class Launcher {
     public Launcher(HardwareMap hardwareMap,Movement movement_inst) {
         this(hardwareMap);
         movement = movement_inst;
-    }
+	}
     
 	public void RobotStart() {
 
@@ -65,10 +66,15 @@ public class Launcher {
             feeder_motor.setPower(0);
             gate_servo.setPosition(Configuration.GATE_CLOSE_ANGLE/270.0);
         }
+		
     }
     public void setRPS(double rps) {
         flywheel_rps=rps;
     }
+	public double getLauncherSpeedSmooth(){
+		prevAverage = Configuration.ALPHA*prevAverage+(1-Configuration.ALPHA)*getVelocity();
+		return prevAverage;
+	}
     public double getPower() {
         return flywheel_rps / 120.0;
     }
