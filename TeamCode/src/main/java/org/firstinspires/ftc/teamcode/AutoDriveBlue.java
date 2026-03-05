@@ -7,7 +7,9 @@ import org.firstinspires.ftc.teamcode.util.Configuration;
 import org.firstinspires.ftc.teamcode.AutoDrive;
 
 @Autonomous
-public class AutoDriveBlue extends LinearOpMode {
-    @Override
-    public boolean turn_right = true;
+public class AutoDriveBlue extends AutoDrive {
+	@Override
+	public boolean getDirection() {
+		return true;
+	}
 }

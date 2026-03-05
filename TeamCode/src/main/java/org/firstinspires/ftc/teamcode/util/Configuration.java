@@ -24,7 +24,7 @@ public class Configuration{
     // SETTINGS
     // seconds to move back after firing period of auto finishes
 
-    public static double AUTO_BACK_AMOUNT = 4.0f; 
+    public static double AUTO_BACK_AMOUNT = 1.5f; 
     public static double AUTO_FORWARD_AMOUNT = 1.0f;
     public static double TURN_SCALE=1;
     public static double DRIVE_SCALE=1;

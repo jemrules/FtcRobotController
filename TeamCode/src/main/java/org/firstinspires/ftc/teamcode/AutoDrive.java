@@ -11,12 +11,13 @@ import org.firstinspires.ftc.teamcode.robot.Movement;
 import org.firstinspires.ftc.teamcode.robot.Sensors;
 
 
-@Autonomous
-public class AutoDrive extends LinearOpMode {
+abstract public class AutoDrive extends LinearOpMode {
     public Launcher launcher;
     public Movement robotMovement;
     public Sensors robotSensors;
-    public boolean turn_right = true;
+	public boolean getDirection() {
+		return true;
+	}
     @Override
     public void runOpMode() {
         launcher=new Launcher(hardwareMap);
@@ -45,9 +46,9 @@ public class AutoDrive extends LinearOpMode {
             // wait until total time = 15
                 launcher.setFeederOnOff(false);
                 launcher.UpdateRobot();
-                double direction = turn_right ? 1.0 : -1.0;
+                double direction = this.getDirection() ? 1.0 : -1.0;
                 robotMovement.left_motor.setPower(direction*0.25);
-                robotMovement.right_motor.setPower(direction*0.5);
+                robotMovement.right_motor.setPower(direction*0.8);
                 telemetry.update();
             while(drive_time.seconds()<15.0+Configuration.AUTO_BACK_AMOUNT);
         }
