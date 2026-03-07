@@ -26,7 +26,7 @@ public class Configuration{
 	// this alpha variable is used for the kalman filter. needs to be tuned for good smoothing.
 	// 0-1: higher means puts more weight in older values, lower means more weight in newer values.
 	public static double ALPHA = 0.5;
-    public static double AUTO_BACK_AMOUNT = 4.0f; 
+    public static double AUTO_BACK_AMOUNT = 1.5f; 
     public static double AUTO_FORWARD_AMOUNT = 1.0f;
     public static double TURN_SCALE=1;
     public static double DRIVE_SCALE=1;
