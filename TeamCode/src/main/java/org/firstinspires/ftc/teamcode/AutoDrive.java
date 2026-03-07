@@ -46,10 +46,19 @@ abstract public class AutoDrive extends LinearOpMode {
             // wait until total time = 15
                 launcher.setFeederOnOff(false);
                 launcher.UpdateRobot();
-                double direction = this.getDirection() ? 1.0 : -1.0;
-                robotMovement.left_motor.setPower(direction*0.25);
-                robotMovement.right_motor.setPower(direction*0.8);
-                telemetry.update();
+                boolean direction = this.getDirection();
+				// red side returns false 
+				if(!direction){	
+					robotMovement.left_motor.setPower(-0.25);
+					robotMovement.right_motor.setPower(-0.5);
+
+				}
+				// blue side returns true
+				else if(direction){
+					robotMovement.right_motor.setPower(-0.25);
+					robotMovement.left_motor.setPower(-0.5);
+				}
+				telemetry.update();
             while(drive_time.seconds()<15.0+Configuration.AUTO_BACK_AMOUNT);
         }
     }
