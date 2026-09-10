@@ -45,7 +45,9 @@ public class Movement {
             0.0, 0.0,
             0.0, 0.0
     };
-    public Movement(VectorF default_position, double default_heading, HardwareMap hardwareMap) {
+
+
+	public Movement(VectorF default_position, double default_heading, HardwareMap hardwareMap) {
         // Set the default position and default heading
         position=default_position;
         turn_rate=0;
