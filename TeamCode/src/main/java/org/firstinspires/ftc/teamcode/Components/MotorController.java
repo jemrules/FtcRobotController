@@ -37,11 +37,8 @@ public class MotorController {
 	}
 	public DcMotor.RunMode getMode(){
 		return motor.getMode();
-	
-	public DcMotor.RunMode getMode(){
-		return motor.getMode();
 	}
-	/// returns rads/sec
+	// returns rads/sec
 	public double getVelocity(){
 		return motor.getVelocity(AngleUnit.RADIANS);
 	}
@@ -50,21 +47,21 @@ public class MotorController {
 		motor.setVelocity(velocity, AngleUnit.RADIANS);	
 	}
 	public void setPIDF(float p, float i, float d, float f){
-		motor.setVelocityPIDF(p, i, d, f);
+		motor.setVelocityPIDFCoefficients(p, i, d, f);
 	}
 	// returns the new state of the motor
-	public bool	toggleDisable(){
-		bool enabled = motor.isMotorEnabled();
+	public boolean toggleDisable(){
+		boolean enabled = motor.isMotorEnabled();
 		if(enabled){
 			motor.setMotorDisable();
-			return 0;
+			return false;
 		}else{
 			motor.setMotorEnable();
-			return 1;
+			return true;
 		}
 	}
 	//returns if is disabled 
-	public bool isDisabled(){
+	public boolean isDisabled(){
 		return !motor.isMotorEnabled();
 	}
 	

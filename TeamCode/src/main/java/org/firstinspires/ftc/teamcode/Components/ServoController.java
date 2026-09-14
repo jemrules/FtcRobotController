@@ -1,16 +1,17 @@
 package org.firstinspires.ftc.teamcode.robot;
+	
 
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
-import com.qualcomm.robotcore.util.Misc.Clamp;
+import static org.firstinspires.ftc.teamcode.util.Misc.Clamp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 public class ServoController {
 	private Servo servo;
 	private double movementRange;
-	public Launcher(HardwareMap hardwareMap, String servo_name, Servo.Direction direction, double movementRange) {
+	public ServoController(HardwareMap hardwareMap, String servo_name, Servo.Direction direction, double movementRange) {
 		servo = hardwareMap.get(Servo.class,servo_name);
 		this.movementRange = movementRange;
 	}
@@ -22,4 +23,5 @@ public class ServoController {
 	public double getPosition(){
 		return (servo.getPosition()*(movementRange));
 	}
+	
 }
