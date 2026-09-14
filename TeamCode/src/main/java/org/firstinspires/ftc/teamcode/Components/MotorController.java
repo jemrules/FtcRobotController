@@ -25,23 +25,23 @@ import java.util.Arrays;
 
 // this provides control of a dc motor
 public class MotorController {
-	public static double TURN_SCALE=1;
-    public static double DRIVE_SCALE=1;
-    public static double MOTOR_RPM=6000.0; // The Motors RPM
-    public static double GEAR_RATIO=1.0/20.0; // The gear ratio coming out of the motor
-    public static double WHEEL_DIAMETER=92.0/1000.0; // The diameter of the wheels [mm] to [m]
-    public static double WHEEL_SPACING=38.0/100.0; // The distance between the left and right wheels [cm] to [m]
-    public static double MAX_MOTOR_ACCELERATION=5.0/2.0;
-
-    public VectorF position;
-    public double turn_rate;
-    public VectorF movement_vector;
-    public DcMotorEx motor=new DcMotorEx();
-	public MotorController(HardwareMap hardwareMap, DcMotorSimple.Direction direction){
-		motor.setDirection(DcMotorSimple.Direction.REVERSE);
+    private DcMotorEx motor;
+	public MotorController(HardwareMap hardwareMap, String name, DcMotorSimple.Direction direction){
+		// dc motor ex is probably better?
+		motor = (DcMotorEx)hardwareMap.get(DcMotor.class, name);
+		motor.setDirection(direction);
 				
 	}
-	// returns rads/sec
+	public void set_mode(DcMotor.RunMode mode){
+		motor.setMode(mode);
+	}
+	public DcMotor.RunMode getMode(){
+		return motor.getMode();
+	
+	public DcMotor.RunMode getMode(){
+		return motor.getMode();
+	}
+	/// returns rads/sec
 	public double getVelocity(){
 		return motor.getVelocity(AngleUnit.RADIANS);
 	}
