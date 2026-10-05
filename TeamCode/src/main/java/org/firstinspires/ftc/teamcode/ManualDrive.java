@@ -10,6 +10,8 @@ import org.firstinspires.ftc.teamcode.robot.Launcher;
 import org.firstinspires.ftc.teamcode.robot.Movement;
 import org.firstinspires.ftc.teamcode.robot.Sensors;
 
+// managers
+import org.firstinspires.ftc.teamcode.managers.InputManager;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -34,22 +36,31 @@ public class ManualDrive extends LinearOpMode {
 //        robotSensors = new Sensors(
 //                hardwareMap);
         // Wait until the play button is pressed
-        while (opModeInInit()) {
+
+
+
+
+		while (opModeInInit()) {
             telemetry.addData("Status", "Ready to Start");
             telemetry.update();
         }
-
+		
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
         // Send to the robot movement controller Init has ended
-        robotMovement.RobotStart();
+       
+		robotMovement.RobotStart();
 //        launcher.RobotStart();
-        odo.setOffsets(-84.0, -168.0, DistanceUnit.MM); //these are tuned for 3110-0002-0001 Product Insight #1
+        
+
+		InputManager.getInstance().init(gamepad1, gamepad2);
+		odo.setOffsets(-84.0, -168.0, DistanceUnit.MM); //these are tuned for 3110-0002-0001 Product Insight #1
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
+
         odo.resetPosAndIMU();
 
         while (opModeIsActive()) {
-            double right_stick_y=gamepad1.right_stick_y*MOVEMENT_STICK_SENSITIVITY;
+            double right_stick_y=InputManager.getInstance().getGamepad1().right_stick_y*MOVEMENT_STICK_SENSITIVITY;
             telemetry.addData("stick",right_stick_y);
 //            launcher_throttle = Clamp(right_stick_y*0.15,0.0,0.15);
 
@@ -58,18 +69,18 @@ public class ManualDrive extends LinearOpMode {
 //            launcher.setRPS(launcher_throttle*-120.0);
 //            launcher.setFeederOnOff(gamepad1.left_bumper);
             telemetry.addData("Status", "Initialized");
-            telemetry.addData("X offset", odo.getXOffset(DistanceUnit.MM));
+			telemetry.addData("X offset", odo.getXOffset(DistanceUnit.MM));
+
             telemetry.addData("Y offset", odo.getYOffset(DistanceUnit.MM));
             telemetry.addData("Device Version Number:", odo.getDeviceVersion());
             telemetry.addData("Heading Scalar", odo.getYawScalar());
-            telemetry.update();
-            robotMovement.setTurnSpeed(gamepad1.right_stick_x); // 5 degrees/second
-            robotMovement.movement_vector.put(0, gamepad1.left_stick_x);
-            robotMovement.movement_vector.put(1, gamepad1.left_stick_y);
+            robotMovement.setTurnSpeed(InputManager.getInstance().getGamepad1().right_stick_x); // 5 degrees/second
+            robotMovement.movement_vector.put(0, InputManager.getInstance().getGamepad1().left_stick_x);
+            robotMovement.movement_vector.put(1, InputManager.getInstance().getGamepad1().left_stick_y);
 
             // Update Robot
 //            launcher.UpdateRobot();
             robotMovement.UpdateRobot(telemetry);
-        }
+		}
     }
 }
