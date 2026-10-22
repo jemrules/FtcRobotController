@@ -57,26 +57,7 @@ public class ManualDrive extends LinearOpMode {
 		InputManager.getInstance().init(gamepad1, gamepad2);
 
         while (opModeIsActive()) {
-            double right_stick_y=InputManager.getInstance().getGamepad1().right_stick_y*MOVEMENT_STICK_SENSITIVITY;
-            telemetry.addData("stick",right_stick_y);
-//            launcher_throttle = Clamp(right_stick_y*0.15,0.0,0.15);
 
-//            telemetry.addData("speed",launcher_throttle);
-
-//            launcher.setRPS(launcher_throttle*-120.0);
-//            launcher.setFeederOnOff(gamepad1.left_bumper);
-            telemetry.addData("Status", "Initialized");
-			telemetry.addData("X offset", TransformManager.getInstance().odo_getPositionX());
-
-            telemetry.addData("Y offset", TransformManager.getInstance().odo_getPositionY());
-            telemetry.addData("Device Version Number:", odo.getDeviceVersion());
-            telemetry.addData("Heading Scalar", odo.getYawScalar());
-            robotMovement.setTurnSpeed(InputManager.getInstance().getGamepad1().right_stick_x); // 5 degrees/second
-            robotMovement.movement_vector.put(0, InputManager.getInstance().getGamepad1().left_stick_x);
-            robotMovement.movement_vector.put(1, InputManager.getInstance().getGamepad1().left_stick_y);
-
-            // Update Robot
-//            launcher.UpdateRobot();
             robotMovement.UpdateRobot(telemetry);
 		}
     }

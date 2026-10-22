@@ -63,9 +63,11 @@ public class Movement {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         // Set DC Motor variables
+        // Front Left, Back Left,
+        // Front  Right, Back  Right
         motors= new DcMotorEx[]{
-                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_3"),(DcMotorEx) hardwareMap.get(DcMotor.class, "motor_1"),
-                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_4"),(DcMotorEx) hardwareMap.get(DcMotor.class, "motor_2"),
+                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_1"),(DcMotorEx) hardwareMap.get(DcMotor.class, "motor_2"),
+                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_3"),(DcMotorEx) hardwareMap.get(DcMotor.class, "motor_4"),
         };
         motors[0].setDirection(DcMotorSimple.Direction.REVERSE);motors[1].setDirection(DcMotorSimple.Direction.FORWARD);
         motors[2].setDirection(DcMotorSimple.Direction.REVERSE);motors[3].setDirection(DcMotorSimple.Direction.REVERSE);
@@ -86,18 +88,18 @@ public class Movement {
         }
         //  L/R
         double LR_mag=abs(movement_vector.get(0))/total_magnitude;
-        for (int i=0;i<motors_velocity.length; i++) {
-            motors_velocity[i]+=
-                    movement_vector.get(0)*LR_mag
-                            *((i>=1 & i<=2) ? 1.0 : -1.0); // Invert Diagonal Motors
-        }
+        motors_velocity[0]+=movement_vector.get(1)*LR_mag;
+        motors_velocity[1]-=movement_vector.get(1)*LR_mag;
+        motors_velocity[2]-=movement_vector.get(1)*LR_mag;
+        motors_velocity[3]+=movement_vector.get(1)*LR_mag;
+
         // Turning
         double TR_mag=abs(turn_rate)/total_magnitude;
-        for (int i=0;i<motors_velocity.length; i++) {
-            motors_velocity[i]+=
-                    turn_rate*TR_mag
-                            *(i%2==0 ? -1.0 : 1.0); // Invert Side Motors
-        }
+        motors_velocity[0]+=movement_vector.get(1)*TR_mag;
+        motors_velocity[1]+=movement_vector.get(1)*TR_mag;
+        motors_velocity[2]-=movement_vector.get(1)*TR_mag;
+        motors_velocity[3]-=movement_vector.get(1)*TR_mag;
+
 
         //Set motor Speed
         for (int i=0;i<motors.length; i++) {
