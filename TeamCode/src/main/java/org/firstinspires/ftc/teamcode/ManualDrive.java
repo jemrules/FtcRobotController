@@ -12,7 +12,9 @@ import org.firstinspires.ftc.teamcode.robot.Sensors;
 
 // managers
 import org.firstinspires.ftc.teamcode.managers.InputManager;
+import org.firstinspires.ftc.teamcode.managers.TransformManager;
 
+import org.firstinspires.ftc.teamcode.util.GoBildaPinpointDriver;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
@@ -51,13 +53,8 @@ public class ManualDrive extends LinearOpMode {
 		robotMovement.RobotStart();
 //        launcher.RobotStart();
         
-
+		TransformManager.getInstance().init(odo);
 		InputManager.getInstance().init(gamepad1, gamepad2);
-		odo.setOffsets(-84.0, -168.0, DistanceUnit.MM); //these are tuned for 3110-0002-0001 Product Insight #1
-        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
-
-        odo.resetPosAndIMU();
 
         while (opModeIsActive()) {
             double right_stick_y=InputManager.getInstance().getGamepad1().right_stick_y*MOVEMENT_STICK_SENSITIVITY;
@@ -69,9 +66,9 @@ public class ManualDrive extends LinearOpMode {
 //            launcher.setRPS(launcher_throttle*-120.0);
 //            launcher.setFeederOnOff(gamepad1.left_bumper);
             telemetry.addData("Status", "Initialized");
-			telemetry.addData("X offset", odo.getXOffset(DistanceUnit.MM));
+			telemetry.addData("X offset", TransformManager.getInstance().odo_getPositionX());
 
-            telemetry.addData("Y offset", odo.getYOffset(DistanceUnit.MM));
+            telemetry.addData("Y offset", TransformManager.getInstance().odo_getPositionY());
             telemetry.addData("Device Version Number:", odo.getDeviceVersion());
             telemetry.addData("Heading Scalar", odo.getYawScalar());
             robotMovement.setTurnSpeed(InputManager.getInstance().getGamepad1().right_stick_x); // 5 degrees/second
