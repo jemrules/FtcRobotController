@@ -25,12 +25,11 @@ import java.util.Arrays;
 
 // this provides control of a dc motor
 public class MotorController {
-    private DcMotorEx motor;
+    private final DcMotorEx motor;
 	public MotorController(HardwareMap hardwareMap, String name, DcMotorSimple.Direction direction){
-		// dc motor ex is probably better?
+		// DC Motor EX allows for setVelocity and PIDF support
 		motor = (DcMotorEx)hardwareMap.get(DcMotor.class, name);
 		motor.setDirection(direction);
-				
 	}
 	public void set_mode(DcMotor.RunMode mode){
 		motor.setMode(mode);
@@ -46,9 +45,14 @@ public class MotorController {
 	public void setVelocity(double velocity){
 		motor.setVelocity(velocity, AngleUnit.RADIANS);	
 	}
+	// set power as a percentage
+	public void setPower(double power) { motor.setPower(power); }
 	public void setPIDF(float p, float i, float d, float f){
 		motor.setVelocityPIDFCoefficients(p, i, d, f);
 	}
+	// get current returns in Amps
+	public double getCurrent() { return motor.getCurrent(CurrentUnit.AMPS); }
+	public double getCurrent(CurrentUnit unit) { return motor.getCurrent(unit); }
 	// returns the new state of the motor
 	public boolean toggleDisable(){
 		boolean enabled = motor.isMotorEnabled();
@@ -60,7 +64,7 @@ public class MotorController {
 			return true;
 		}
 	}
-	//returns if is disabled 
+	// returns if is disabled
 	public boolean isDisabled(){
 		return !motor.isMotorEnabled();
 	}

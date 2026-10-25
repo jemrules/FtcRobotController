@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.robot;
 import static org.firstinspires.ftc.teamcode.util.Misc.Clamp;
 import static org.firstinspires.ftc.teamcode.util.TrigMath.subtractAngles;
 
+import org.firstinspires.ftc.teamcode.Components.MotorController;
+
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -40,7 +42,7 @@ public class Movement {
     public double turn_rate;
     public VectorF movement_vector;
     public IMU imu;
-    public DcMotorEx[] motors=new DcMotorEx[4];
+    public MotorController[] motors;
     public double[] motors_velocity={
             0.0, 0.0,
             0.0, 0.0
@@ -65,12 +67,10 @@ public class Movement {
         // Set DC Motor variables
         // Front Left, Back Left,
         // Front  Right, Back  Right
-        motors= new DcMotorEx[]{
-                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_1"),(DcMotorEx) hardwareMap.get(DcMotor.class, "motor_2"),
-                (DcMotorEx) hardwareMap.get(DcMotor.class, "motor_3"),(DcMotorEx) hardwareMap.get(DcMotor.class, "motor_4"),
+        motors = new MotorController[]{
+                new MotorController(hardwareMap, "motor_1", DcMotorSimple.Direction.REVERSE), new MotorController(hardwareMap, "motor_2", DcMotorSimple.Direction.FORWARD),
+                new MotorController(hardwareMap, "motor_3", DcMotorSimple.Direction.REVERSE), new MotorController(hardwareMap, "motor_4", DcMotorSimple.Direction.REVERSE),
         };
-        motors[0].setDirection(DcMotorSimple.Direction.REVERSE);motors[1].setDirection(DcMotorSimple.Direction.FORWARD);
-        motors[2].setDirection(DcMotorSimple.Direction.REVERSE);motors[3].setDirection(DcMotorSimple.Direction.REVERSE);
     }
     // Set default_heading to 0.0 if default_heading isn't given
     public Movement(VectorF default_position, HardwareMap hardwareMap) {this(default_position,0.0,hardwareMap);}
@@ -103,7 +103,7 @@ public class Movement {
 
         //Set motor Speed
         for (int i=0;i<motors.length; i++) {
-            telemetry.addData("Motor_"+i,motors_velocity[i]+","+motors[i].getVelocity()+","+motors[i].getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Motor_"+i,motors_velocity[i]+","+motors[i].getVelocity()+","+motors[i].getCurrent());
             motors[i].setPower(motors_velocity[i]);
         }
         telemetry.update();
