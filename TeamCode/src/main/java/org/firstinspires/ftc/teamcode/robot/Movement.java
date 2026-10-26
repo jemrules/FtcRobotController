@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-
+import org.firstinspires.ftc.teamcode.managers.InputManager;
 import static java.lang.Math.abs;
 import static java.lang.Math.atan2;
 import static java.lang.Math.cos;
@@ -80,21 +80,35 @@ public class Movement {
     public void UpdateRobot(Telemetry telemetry) {
         // TODO: Add position tracker
         Arrays.fill(motors_velocity,0.0);
-        double total_magnitude=abs(movement_vector.get(0))+abs(movement_vector.get(1))+abs(turn_rate);
+		float stick_x = InputManager.getInstance().getGamepad1().left_stick_x;
+		float stick_y = InputManager.getInstance().getGamepad1().left_stick_y;
+
+		movement_vector = new VectorF(stick_x*(float)DRIVE_SCALE, stick_y*(float)DRIVE_SCALE);
+			
+		double total_magnitude=abs(movement_vector.get(0))+abs(movement_vector.get(1))+abs(turn_rate);
         // Horizontal Drive
-        double FB_mag=abs(movement_vector.get(1))/total_magnitude;
+        
+		double FB_mag, TR_mag, LR_mag;
+
+		if(total_magnitude != 0.f){
+			FB_mag=abs(movement_vector.get(1))/total_magnitude;		
+			TR_mag=abs(turn_rate)/total_magnitude;
+			LR_mag=abs(movement_vector.get(0))/total_magnitude;
+		}else{
+			FB_mag = 0.f;
+			TR_mag = 0.f;
+			LR_mag = 0.f;
+		}
         for (int i=0;i<motors_velocity.length; i++) {
             motors_velocity[i]+=movement_vector.get(1)*FB_mag;
         }
         //  L/R
-        double LR_mag=abs(movement_vector.get(0))/total_magnitude;
         motors_velocity[0]+=movement_vector.get(1)*LR_mag;
         motors_velocity[1]-=movement_vector.get(1)*LR_mag;
         motors_velocity[2]-=movement_vector.get(1)*LR_mag;
         motors_velocity[3]+=movement_vector.get(1)*LR_mag;
 
         // Turning
-        double TR_mag=abs(turn_rate)/total_magnitude;
         motors_velocity[0]+=movement_vector.get(1)*TR_mag;
         motors_velocity[1]+=movement_vector.get(1)*TR_mag;
         motors_velocity[2]-=movement_vector.get(1)*TR_mag;
