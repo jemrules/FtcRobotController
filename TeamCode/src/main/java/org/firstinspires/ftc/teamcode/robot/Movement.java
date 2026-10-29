@@ -103,16 +103,16 @@ public class Movement {
             motors_velocity[i]+=movement_vector.get(1)*FB_mag;
         }
         //  L/R
-        motors_velocity[0]+=movement_vector.get(1)*LR_mag;
-        motors_velocity[1]-=movement_vector.get(1)*LR_mag;
-        motors_velocity[2]-=movement_vector.get(1)*LR_mag;
-        motors_velocity[3]+=movement_vector.get(1)*LR_mag;
+        motors_velocity[0]+=movement_vector.get(0)*LR_mag;
+        motors_velocity[1]-=movement_vector.get(0)*LR_mag;
+        motors_velocity[2]-=movement_vector.get(0)*LR_mag;
+        motors_velocity[3]+=movement_vector.get(0)*LR_mag;
 
         // Turning
-        motors_velocity[0]+=movement_vector.get(1)*TR_mag;
-        motors_velocity[1]+=movement_vector.get(1)*TR_mag;
-        motors_velocity[2]-=movement_vector.get(1)*TR_mag;
-        motors_velocity[3]-=movement_vector.get(1)*TR_mag;
+        motors_velocity[0]+=turn_rate*TR_mag;
+        motors_velocity[1]+=turn_rate*TR_mag;
+        motors_velocity[2]-=turn_rate*TR_mag;
+        motors_velocity[3]-=turn_rate*TR_mag;
 
 
         //Set motor Speed
