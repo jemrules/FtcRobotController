@@ -9,4 +9,6 @@ public class Conversion {
 
     public static float deg2rad(float value) {return value*(float) PI/180.0f;}
     public static double deg2rad(double value) {return value*PI/180.0;}
+    // convert percent power (eg. 100.0) to radians per second
+    public static double power2rads(double power, double max_rps) {return (power/100)*(max_rps*2*PI); }
 }
