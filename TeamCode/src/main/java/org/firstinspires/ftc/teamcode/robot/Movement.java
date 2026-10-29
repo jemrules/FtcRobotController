@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.robot;
 import static org.firstinspires.ftc.teamcode.util.Misc.Clamp;
 import static org.firstinspires.ftc.teamcode.util.TrigMath.subtractAngles;
 
+// custom api for controlling the motors
 import org.firstinspires.ftc.teamcode.Components.MotorController;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -61,7 +62,8 @@ public class Movement {
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection,usbDirection);
 
         // Set the IMU (Gyro) Variable
-        // this is fucked
+        // this is fucked rn because i think that there may or may not be an imu in
+        // the actual control hub
         imu=hardwareMap.get(IMU.class,"imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
@@ -110,11 +112,12 @@ public class Movement {
         motors_velocity[2]-=turn_rate*TR_mag;
         motors_velocity[3]-=turn_rate*TR_mag;
 
-
         //Set motor Speed
         for (int i=0;i<motors.length; i++) {
-            telemetry.addData("Motor_"+i,motors_velocity[i]+","+motors[i].getVelocity()+","+motors[i].getCurrent());
-            motors[i].setPower(motors_velocity[i]);
+            telemetry.addData("Motor_"+i,motors_velocity[i]+":"+motors[i].getVelocity()+"rads/sec,"+motors[i].getCurrent()+"A");
+            // all of our calcs use power, but motor uses rads
+            // last arg. is max rps of the motor
+            motors[i].setVelocity(Conversion.power2rads(motors_velocity[i]*100, 3));
         }
         telemetry.update();
     }

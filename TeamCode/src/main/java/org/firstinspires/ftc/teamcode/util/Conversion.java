@@ -11,4 +11,5 @@ public class Conversion {
     public static double deg2rad(double value) {return value*PI/180.0;}
     // convert percent power (eg. 100.0) to radians per second
     public static double power2rads(double power, double max_rps) {return (power/100)*(max_rps*2*PI); }
+    public static double rads2power(double rads, double max_rps) {return (rads/(max_rps*PI*2))*100;}
 }
