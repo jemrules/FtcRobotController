@@ -30,7 +30,7 @@ import java.util.Arrays;
 
 public class Movement {
     // SETTINGS
-    public static double TURN_SCALE=1;
+    public static double TURN_SCALE=1; // this doesnt do anything for now
     public static double DRIVE_SCALE=1;
     public static double MOTOR_RPM=6000.0; // The Motors RPM
     public static double GEAR_RATIO=1.0/20.0; // The gear ratio coming out of the motor
@@ -61,6 +61,7 @@ public class Movement {
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection,usbDirection);
 
         // Set the IMU (Gyro) Variable
+        // this is fucked
         imu=hardwareMap.get(IMU.class,"imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
@@ -69,7 +70,7 @@ public class Movement {
         // Front  Right, Back  Right
         motors = new MotorController[]{
                 new MotorController(hardwareMap, "motor_1", DcMotorSimple.Direction.REVERSE), new MotorController(hardwareMap, "motor_2", DcMotorSimple.Direction.FORWARD),
-                new MotorController(hardwareMap, "motor_3", DcMotorSimple.Direction.REVERSE), new MotorController(hardwareMap, "motor_4", DcMotorSimple.Direction.REVERSE),
+                new MotorController(hardwareMap, "motor_3", DcMotorSimple.Direction.REVERSE), new MotorController(hardwareMap, "motor_4", DcMotorSimple.Direction.FORWARD),
         };
     }
     // Set default_heading to 0.0 if default_heading isn't given
@@ -79,12 +80,7 @@ public class Movement {
     } // Reset Yaw to 0
     public void UpdateRobot(Telemetry telemetry) {
         // TODO: Add position tracker
-        Arrays.fill(motors_velocity,0.0);
-		float stick_x = InputManager.getInstance().getGamepad1().left_stick_x;
-		float stick_y = InputManager.getInstance().getGamepad1().left_stick_y;
-
-		movement_vector = new VectorF(stick_x*(float)DRIVE_SCALE, stick_y*(float)DRIVE_SCALE);
-			
+        Arrays.fill(motors_velocity,0.0);			
 		double total_magnitude=abs(movement_vector.get(0))+abs(movement_vector.get(1))+abs(turn_rate);
         // Horizontal Drive
         
@@ -121,6 +117,18 @@ public class Movement {
             motors[i].setPower(motors_velocity[i]);
         }
         telemetry.update();
+    }
+    public void updateMovementFromSticks(){
+        float stick_x = InputManager.getInstance().getGamepad1().left_stick_x;
+		float stick_y = InputManager.getInstance().getGamepad1().left_stick_y;
+        float rotate = InputManager.getInstance().getGamepad1().right_stick_x;
+        // evern do my work for me uwu
+        // WARNING: IT LOOKS LIKE STICK X AND Y ARE IN THE WRONG PLACES BUT
+        // SOMETHING ELSE IN THE CODE IS BROKEN, SO THIS MAKES EVERYTHING WORK
+        // MOVEMENT WILL BREAK IF YOU CHANGE THIS BACK
+		movement_vector = new VectorF(stick_y*(float)DRIVE_SCALE, stick_x*(float)DRIVE_SCALE);
+			
+
     }
     // Get heading from the IMU (Control Hub)
     public double getHeading() {
